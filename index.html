@@ -2,7 +2,10 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
+    />
 
     <title>Koru AI</title>
     <link rel="shortcut icon" href="favicon-ko-ai.svg" type="image/x-icon" />
@@ -34,13 +37,15 @@
         --poppins-font-style-italic: italic;
       }
 
-      body {
+      html,body {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        height: 100vh;
-        margin: 0;
+        height: 100%; /* Garante que o body siga a altura da viewport */
+        margin: 0; /* Remove espaçamentos padrões */
+        padding: 0; /* Remove espaçamentos padrões */
+        overflow: hidden;
         background: linear-gradient(
           to bottom,
           #b621ff 0%,
@@ -65,7 +70,7 @@
 
       nav {
         display: grid;
-        grid-template-columns: 0.1fr 1fr;
+        grid-template-columns: auto 1fr;
         align-items: center;
         place-items: center;
         width: 100%;
@@ -74,7 +79,7 @@
 
       nav svg {
         width: 108px;
-        height: 34px;
+        height: auto;
         grid-column: 0.1;
       }
 
@@ -111,7 +116,7 @@
 
       section {
         width: 100%;
-        height: 100%;
+        height: fit-content;
         max-width: 1600px;
         padding: var(--padding-size);
         display: flex;
@@ -288,7 +293,6 @@
         font-weight: var(--poppins-semibold);
         color: var(--tertiary-color);
       }
-
       @media screen and (max-width: 768px) {
         .welcome-text {
             gap: 12px;
@@ -312,7 +316,7 @@
         section {
           padding: 8px;
           justify-content: flex-start;
-          margin: 80px;
+          margin-top: 80px;
         }
         .welcome-text {
             gap: 8px;
