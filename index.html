@@ -220,7 +220,17 @@
         transition: all 0.8s ease-in-out;
       }
 
-      form:hover textarea,
+      #message.hover-enabled:hover {
+        opacity: 1;
+        transition: all 0.8s ease-in-out;
+      }
+
+      #gemini-button.hover-enabled-btn:hover {
+        opacity: 1;
+        transition: all 0.8s ease-in-out;
+      }
+
+      
       form:focus-within textarea {
         opacity: 1;
         transition: all 0.8s ease-in-out;
@@ -276,8 +286,26 @@
         height: 24px;
         opacity: 0.1;
       }
+
+      .container-dropdown {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
       .model-dropdown {
-        /* background-color: transparent; */
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        gap: 10px;
+      }
+
+      .model-dropdown svg {
+        width: 16px;
+        height: 16px;
       }
       .section-text button {
         display: flex;
@@ -307,7 +335,7 @@
       }
 
       #key-error::before {
-        content: '\00a0';
+        content: "\00a0";
       }
 
       .askAnything {
@@ -359,10 +387,14 @@
       }
 
       .send-icon {
-
         height: 20px;
         fill: white;
         pointer-events: none;
+      }
+
+      .sendicon.hover-enabled-icon {
+        opacity: 1;
+        pointer-events: all;
       }
 
       .askAnything button {
@@ -380,17 +412,53 @@
         border-radius: 45px;
       }
 
+      #question {
+        display: flex;
+      }
+
       .answer {
         display: none;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
         font-family: var(--poppins-font);
         font-weight: var(--poppins-light);
         font-size: 16px;
         color: var(--text-color);
         animation: fadeIn 3s ease-in-out;
         width: 500px;
-        background: red;
-        height: 300px;
-  overflow-y: auto;
+        padding: 30px 20px;
+        height: auto;
+        max-height: 300px;
+        overflow-x: auto;
+      }
+
+      .answer ::scroll-marker {
+        display: none;
+      }
+
+      .loading {
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .loading svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .loading p {
+        font-family: var(--poppins-font);
+        font-weight: var(--poppins-light);
+        font-size: 16px;
+        color: var(--text-color);
+      }
+      .loading span {
+        font-family: var(--poppins-font);
+        font-weight: var(--poppins-semibold);
+        font-size: 16px;
+        color: var(--text-color);
       }
 
       @media screen and (max-width: 768px) {
@@ -446,22 +514,23 @@
             fill="white"
           />
         </svg>
-
-        <div class="model-dropdown">
-          escolher modelo
-          <svg
-            width="9"
-            height="6"
-            viewBox="0 0 9 6"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M7.61877 1L4.46348 4.81375C4.3835 4.91042 4.23528 4.91042 4.15529 4.81375L0.999986 1"
-              stroke="white"
-              stroke-linecap="round"
-            />
-          </svg>
+        <div class="container-dropdown">
+          <div class="model-dropdown">
+            escolher modelo
+            <svg
+              width="9"
+              height="6"
+              viewBox="0 0 9 6"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7.61877 1L4.46348 4.81375C4.3835 4.91042 4.23528 4.91042 4.15529 4.81375L0.999986 1"
+                stroke="white"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
         </div>
       </nav>
     </header>
@@ -483,13 +552,13 @@
             />
           </svg>
         </div>
-        <p>Para começar, digite sua <span>chave da OpenAI</span></p>
+        <p>Para começar, digite sua <span>chave da Gemini</span></p>
         <p>minha chave:</p>
-        <form action="#" >
+        <form action="#">
           <input
             type="password"
             id="openai-key"
-            placeholder="Chave da OpenAI"
+            placeholder="Chave da Gemini"
           />
           <svg
             class="key-icon"
@@ -557,28 +626,66 @@
         <p id="key-error"></p>
       </div>
       <div class="askAnything">
-        <div class="answer"></div>
-        <p>O que você gostaria de perguntar?</p>
+        <div class="answer">
+          <div class="loading"><p><span>koru.ai</span> está carregando sua resposta</p></div>
+          <svg
+            width="80"
+            height="24"
+            viewBox="0 0 80 24"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#ffffff"
+          >
+            <circle cx="10" cy="12" r="4">
+              <animate
+                attributeName="cy"
+                values="12;6;12"
+                dur="0.6s"
+                repeatCount="indefinite"
+                begin="0s"
+              />
+            </circle>
+            <circle cx="40" cy="12" r="4">
+              <animate
+                attributeName="cy"
+                values="12;6;12"
+                dur="0.6s"
+                repeatCount="indefinite"
+                begin="0.2s"
+              />
+            </circle>
+            <circle cx="70" cy="12" r="4">
+              <animate
+                attributeName="cy"
+                values="12;6;12"
+                dur="0.6s"
+                repeatCount="indefinite"
+                begin="0.4s"
+              />
+            </circle>
+          </svg>
+        </div>
+        <p id="question">O que você gostaria de perguntar?</p>
         <form action="#" id="openai-form" name="openai-form">
-          <textarea
+          <textarea class="hover-enabled"
             name="message"
             id="message"
             placeholder="Digite sua pergunta aqui"
           ></textarea>
-          <button class="disabled-btn" id="gemini-button" type="button" >  <svg
-            class="send-icon"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.6999 1.93584C17.5466 1.64001 18.3599 2.45334 18.0641 3.30001L13.1266 17.4083C12.8058 18.3233 11.5308 18.375 11.1374 17.4892L8.75492 12.1292L12.1083 8.77501C12.2187 8.65653 12.2788 8.49982 12.2759 8.3379C12.273 8.17599 12.2074 8.0215 12.0929 7.90699C11.9784 7.79248 11.8239 7.72688 11.662 7.72403C11.5001 7.72117 11.3434 7.78127 11.2249 7.89167L7.87075 11.245L2.51075 8.86251C1.62492 8.46834 1.67742 7.19417 2.59159 6.87334L16.6999 1.93584Z"
-              fill="white"
-            />
-          </svg></button>
-        
+          <button class="disabled-btn hover-enabled-btn" id="gemini-button" type="button">
+            <svg
+              class="send-icon hover-enabled-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.6999 1.93584C17.5466 1.64001 18.3599 2.45334 18.0641 3.30001L13.1266 17.4083C12.8058 18.3233 11.5308 18.375 11.1374 17.4892L8.75492 12.1292L12.1083 8.77501C12.2187 8.65653 12.2788 8.49982 12.2759 8.3379C12.273 8.17599 12.2074 8.0215 12.0929 7.90699C11.9784 7.79248 11.8239 7.72688 11.662 7.72403C11.5001 7.72117 11.3434 7.78127 11.2249 7.89167L7.87075 11.245L2.51075 8.86251C1.62492 8.46834 1.67742 7.19417 2.59159 6.87334L16.6999 1.93584Z"
+                fill="white"
+              />
+            </svg>
+          </button>
         </form>
       </div>
     </section>
