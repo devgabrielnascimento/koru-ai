@@ -1,15 +1,150 @@
-/* Clipboard*/
-
 const btnPaste = document.querySelector(".paste-icon");
-    function paste() {
-    navigator.clipboard
-      .readText()
-      .then(
-        (clipText) => (document.getElementById("openai-key").value += clipText)
-      );
+const geminiButton = document.querySelector("#gemini-button");
+const submitButton = document.querySelector("#submit-key");
+const form = document.querySelector("#openai-form");
+const keyError = document.querySelector("#key-error");
+const answer = document.querySelector(".answer");
+function paste() {
+  navigator.clipboard
+    .readText()
+    .then((clipText) => {
+      const keyInput = document.getElementById("openai-key");
+      keyInput.value += clipText;
+    })
+    .catch((err) => {
+      console.error("Erro ao ler clipboard:", err);
+    });
 }
 
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  const savedKey = localStorage.getItem("openai-key");
+  if (savedKey) {
+    document.getElementById("openai-key").value = savedKey;
+  }
+});
 
 btnPaste.addEventListener("click", paste);
 
-/* Em breve mais implementações serão adicionadas*/
+
+async function submitKey() {
+  const apiKey = document.getElementById("openai-key").value.trim();
+  try {
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(
+        apiKey
+      )}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: "Teste de validação" }] }],
+        }),
+      }
+    );
+
+    if (resp.status === 429) {
+      keyError.style.color = "orange";
+      keyError.textContent =
+        "Limite de chamadas atingido. Tente novamente mais tarde.";
+      // } else if (resp.status === 200) {
+      //   localStorage.removeItem("openai-key", apiKey);
+      //   throw new Error(`Chave inválida ou erro na API: status ${resp.status}`);
+      // }
+    } else if (resp.status === 403) {
+      keyError.style.color = "white";
+      keyError.textContent = "Campo obrigatório: Chave da OpenAI";
+    } else if (resp.status === 200) {
+      localStorage.setItem("openai-key", apiKey);
+      const sectionText = document.querySelector(".section-text");
+      const askAnything = document.querySelector(".askAnything");
+      sectionText.style.display = "none";
+      askAnything.style.display = "flex";
+    } else {
+      keyError.style.color = "red";
+      keyError.textContent = `Chave inválida ou erro na API: status ${resp.status}`;
+    }
+  } catch (error) {
+    keyError.style.color = "red";
+    keyError.textContent = "Erro ao validar chave: " + error.message;
+  }
+}
+
+submitButton.addEventListener("click", submitKey);
+
+/* gemini: recebe key e message e envia a requisição.
+   OBS: não redeclara userMessage aqui. */
+async function gemini(apiKey, userMessage) {
+  // validação defensiva dentro da função também
+  if (!apiKey || !apiKey.trim()) {
+    answer.textContent = "Chave da API não encontrada. Salve primeiro.";
+    return;
+  }
+  if (!userMessage || !userMessage.trim()) {
+    answer.textContent = "Digite sua pergunta antes de enviar.";
+    return;
+  }
+
+  geminiButton.disabled = true;
+  geminiButton.setAttribute("aria-disabled", "true");
+  answer.textContent = "Carregando...";
+
+  try {
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(
+        apiKey
+      )}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: userMessage }],
+            },
+          ],
+        }),
+      }
+    );
+
+    if (!resp.ok) {
+      const errText = await resp.text().catch(() => "");
+      throw new Error(`HTTP error! status: ${resp.status} ${errText}`);
+    }
+
+    const data = await resp.json();
+    let text = null;
+
+    if (data?.contents?.[0]?.parts?.[0]?.text) {
+      text = data.contents[0].parts[0].text;
+    } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+      text = data.candidates[0].content.parts[0].text;
+    }
+
+    if (text) {
+      answer.textContent = text;
+    } else {
+      console.warn("Resposta com formato inesperado:", data);
+      answer.textContent = "Resposta inválida do servidor.";
+    }
+  } catch (err) {
+    console.error(err);
+    answer.textContent = "Erro ao consultar a API: " + (err.message || err);
+  } finally {
+    geminiButton.disabled = false;
+    geminiButton.setAttribute("aria-disabled", "false");
+  }
+}
+
+geminiButton.addEventListener("click", () => {
+  answer.style.display = "flex";
+  const apiKey = (localStorage.getItem("openai-key") || "").trim();
+  const userMessage = document.getElementById("message").value.trim();
+  gemini(apiKey, userMessage);
+});

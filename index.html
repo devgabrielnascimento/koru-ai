@@ -33,18 +33,19 @@
         --poppins-font: "Poppins", sans-serif;
         --poppins-semibold: 600;
         --poppins-light: 300;
-        --poppins-extralight-italic: 200;
+        --poppins-extralight: 200;
         --poppins-font-style-italic: italic;
       }
 
-      html,body {
+      html,
+      body {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        height: 100%; 
-        margin: 0; 
-        padding: 0; 
+        height: 100%;
+        margin: 0;
+        padding: 0;
         background: linear-gradient(
           to bottom,
           #b621ff 0%,
@@ -171,7 +172,7 @@
       }
       p:nth-child(3) {
         font-family: var(--poppins-font);
-        font-weight: var(--poppins-extralight-italic);
+        font-weight: var(--poppins-extralight);
         font-style: var(--poppins-font-style-italic);
         font-size: 16px;
         color: var(--text-color);
@@ -219,6 +220,12 @@
         transition: all 0.8s ease-in-out;
       }
 
+      form:hover textarea,
+      form:focus-within textarea {
+        opacity: 1;
+        transition: all 0.8s ease-in-out;
+      }
+
       form:hover .disabled-btn,
       form:hover .paste-icon,
       form:hover .key-icon {
@@ -257,10 +264,10 @@
         height: 24px;
         opacity: 0.1;
       }
-      .disabled-btn {
+      /* .disabled-btn {
         opacity: 0.1;
         pointer-events: none;
-      }
+      } */
       .paste-icon {
         position: absolute;
         top: 10px;
@@ -272,7 +279,7 @@
       .model-dropdown {
         /* background-color: transparent; */
       }
-      button {
+      .section-text button {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -292,11 +299,101 @@
         font-weight: var(--poppins-semibold);
         color: var(--tertiary-color);
       }
+
+      #key-error {
+        font-family: var(--poppins-font);
+        font-weight: var(--poppins-semibold);
+        font-size: 12px;
+      }
+
+      .askAnything {
+        position: relative;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        line-height: 1;
+        gap: 20px;
+        animation: fadeIn 3s ease-in-out;
+      }
+
+      .askAnything p {
+        font-family: var(--poppins-font);
+        font-weight: var(--poppins-extralight);
+        font-size: 28px;
+        color: var(--text-color);
+      }
+
+      .askAnything textarea {
+        width: 100%;
+        resize: none;
+        max-width: 100%;
+        height: 100px;
+        line-height: 1.8;
+        padding: 16px 60px 16px 18px;
+        border-radius: 5px;
+        border: 0.5px solid gray;
+        font-family: var(--poppins-font);
+        font-weight: var(--poppins-light);
+        font-size: 16px;
+        color: var(--text-color);
+        background: var(--quaternary-color);
+        opacity: 0.1;
+      }
+      .askAnything textarea::-webkit-scrollbar {
+        display: none;
+      }
+      .askAnything textarea::placeholder {
+        color: var(--text-color);
+        opacity: 1;
+      }
+      .askAnything textarea:focus {
+        opacity: 1;
+        outline: none;
+        border: 0.5px solid #ffffff;
+        transition: all 0.8s ease-in-out;
+      }
+
+      .send-icon {
+
+        height: 20px;
+        fill: white;
+        pointer-events: none;
+      }
+
+      .askAnything button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        right: 10px;
+        bottom: 25px;
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary-color);
+        color: var(--tertiary-color);
+        border: none;
+        border-radius: 45px;
+      }
+
+      .answer {
+        display: none;
+        font-family: var(--poppins-font);
+        font-weight: var(--poppins-light);
+        font-size: 16px;
+        color: var(--text-color);
+        animation: fadeIn 3s ease-in-out;
+        width: 100%;
+        background: red;
+        height: 300px;
+  overflow-y: auto;
+      }
+
       @media screen and (max-width: 768px) {
         .welcome-text {
-            gap: 12px;
+          gap: 12px;
         }
-        
+
         .welcome-text svg {
           width: 128px;
           height: 32px;
@@ -308,9 +405,8 @@
       }
 
       @media screen and (max-width: 490px) {
-
         header {
-            padding: 14px;
+          padding: 14px;
         }
         section {
           padding: 8px;
@@ -318,7 +414,7 @@
           margin-top: 80px;
         }
         .welcome-text {
-            gap: 8px;
+          gap: 8px;
         }
         .welcome-text svg {
           width: 96px;
@@ -385,7 +481,7 @@
         </div>
         <p>Para começar, digite sua <span>chave da OpenAI</span></p>
         <p>minha chave:</p>
-        <form action="#">
+        <form action="#" >
           <input
             type="password"
             id="openai-key"
@@ -439,7 +535,7 @@
             </defs>
           </svg>
 
-          <button class="disabled-btn">
+          <button class="disabled-btn" id="submit-key">
             <svg
               width="20"
               height="20"
@@ -453,6 +549,32 @@
               />
             </svg>
           </button>
+        </form>
+        <p id="key-error"></p>
+      </div>
+      <div class="askAnything">
+        <div class="answer"></div>
+        <p>O que você gostaria de perguntar?</p>
+        <form action="#" id="openai-form" name="openai-form">
+          <textarea
+            name="message"
+            id="message"
+            placeholder="Digite sua pergunta aqui"
+          ></textarea>
+          <button class="disabled-btn" id="gemini-button" type="button" >  <svg
+            class="send-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.6999 1.93584C17.5466 1.64001 18.3599 2.45334 18.0641 3.30001L13.1266 17.4083C12.8058 18.3233 11.5308 18.375 11.1374 17.4892L8.75492 12.1292L12.1083 8.77501C12.2187 8.65653 12.2788 8.49982 12.2759 8.3379C12.273 8.17599 12.2074 8.0215 12.0929 7.90699C11.9784 7.79248 11.8239 7.72688 11.662 7.72403C11.5001 7.72117 11.3434 7.78127 11.2249 7.89167L7.87075 11.245L2.51075 8.86251C1.62492 8.46834 1.67742 7.19417 2.59159 6.87334L16.6999 1.93584Z"
+              fill="white"
+            />
+          </svg></button>
+        
         </form>
       </div>
     </section>
