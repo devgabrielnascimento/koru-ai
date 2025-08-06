@@ -306,6 +306,10 @@
         font-size: 12px;
       }
 
+      #key-error::before {
+        content: '\00a0';
+      }
+
       .askAnything {
         position: relative;
         display: none;
@@ -383,7 +387,7 @@
         font-size: 16px;
         color: var(--text-color);
         animation: fadeIn 3s ease-in-out;
-        width: 100%;
+        width: 500px;
         background: red;
         height: 300px;
   overflow-y: auto;
