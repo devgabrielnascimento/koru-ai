@@ -23,7 +23,6 @@ form.addEventListener("submit", function (event) {
   event.preventDefault();
 });
 
-
 formKey.addEventListener("submit", function (event) {
   event.preventDefault();
 });
@@ -167,6 +166,7 @@ geminiButton.addEventListener("click", () => {
   answer.style.display = "flex";
   loadingIcon.style.display = "flex";
   question.style.display = "none";
+
   const apiKey = (localStorage.getItem("openai-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);
