@@ -21,16 +21,22 @@ function paste() {
 
 document.addEventListener("input", function (event) {
   if (event.target.classList.contains("TxtObservations")) {
-    const limite = 1500;
+    const limite = 500;
+    if (event.target.value.length >= limite) {
+      event.target.value = event.target.value.slice(0, limite);
+    }
     const caracteresDigitados = event.target.value.length;
     const caracteresRestantes = limite - caracteresDigitados;
 
     const span = document.querySelector(".caracteres");
     if (span) {
-      span.textContent = caracteresRestantes  + "/" + limite;
+      span.textContent = caracteresRestantes + "/" + limite;
     }
 
-    if (limite === caracteresDigitados || caracteresDigitados > limite) {
+   
+    if (limite - caracteresDigitados < 25 && limite - caracteresDigitados > 0) {
+      span.style.color = "orange";
+    } else if (limite === caracteresDigitados) {
       geminiButton.classList.remove("hover-enabled-btn");
       geminiButton.disabled = true;
       geminiButton.setAttribute("aria-disabled", "true");
@@ -43,8 +49,6 @@ document.addEventListener("input", function (event) {
     }
   }
 });
-
-
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
