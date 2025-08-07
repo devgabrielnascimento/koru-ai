@@ -316,8 +316,12 @@ span {
   font-family: var(--poppins-font);
   font-weight: var(--poppins-semibold);
   color: var(--tertiary-color);
+  font-size: 12px;
 }
 
+.caracteres {
+  display: flex;
+}
 
 
 #key-error {

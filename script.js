@@ -19,6 +19,33 @@ function paste() {
     });
 }
 
+document.addEventListener("input", function (event) {
+  if (event.target.classList.contains("TxtObservations")) {
+    const limite = 1500;
+    const caracteresDigitados = event.target.value.length;
+    const caracteresRestantes = limite - caracteresDigitados;
+
+    const span = document.querySelector(".caracteres");
+    if (span) {
+      span.textContent = caracteresRestantes  + "/" + limite;
+    }
+
+    if (limite === caracteresDigitados || caracteresDigitados > limite) {
+      geminiButton.classList.remove("hover-enabled-btn");
+      geminiButton.disabled = true;
+      geminiButton.setAttribute("aria-disabled", "true");
+      span.style.color = "red";
+    } else {
+      span.style.color = "white";
+      geminiButton.classList.add("hover-enabled-btn");
+      geminiButton.disabled = false;
+      geminiButton.removeAttribute("aria-disabled");
+    }
+  }
+});
+
+
+
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 });
