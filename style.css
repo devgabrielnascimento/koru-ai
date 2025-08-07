@@ -303,11 +303,22 @@ svg path ~ input:focus {
   border-radius: 45px;
 }
 
+#gemini-link {
+  text-decoration: none;
+}
+
+#gemini-link:hover {
+  opacity: 0.8;
+  transition: all 0.2s ease-in-out;
+}   
+
 span {
   font-family: var(--poppins-font);
   font-weight: var(--poppins-semibold);
   color: var(--tertiary-color);
 }
+
+
 
 #key-error {
   font-family: var(--poppins-font);
