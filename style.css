@@ -504,3 +504,22 @@ span {
     width: 300px;
   }
 }
+/* CSS para o botão "Copiar Resposta" */
+#copiarResposta {
+  display: none; /* começa escondido */
+  cursor: pointer;
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
+  font-family: var(--poppins-font);
+  font-weight: var(--poppins-semibold);
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px; /* espaço acima do botão */
+  align-self: flex-start; /* se o container for flex, alinha à esquerda */
+}
+
+#copiarResposta:hover {
+  background-color: var(--secondary-color);
+}

@@ -7,6 +7,24 @@ const keyError = document.querySelector("#key-error");
 const answer = document.querySelector(".answer");
 const question = document.querySelector("#question");
 const loadingIcon = document.querySelector(".loading");
+const botaoCopiar = document.getElementById("copiarResposta");
+const areaResposta = document.querySelector(".answer");
+
+// Inicialmente o botão copiar pode estar escondido no CSS, então só mostrar quando tiver resposta
+function mostrarBotaoCopiar() {
+  botaoCopiar.style.display = "inline-block";
+}
+
+botaoCopiar.addEventListener("click", () => {
+  const texto = areaResposta.innerText || areaResposta.textContent;
+
+  navigator.clipboard.writeText(texto)
+    .then(() => {
+      botaoCopiar.innerText = "✅ Copiado!";
+      setTimeout(() => botaoCopiar.innerText = "📋 Copiar Resposta", 1500);
+    })
+    .catch(err => console.error("Erro ao copiar: ", err));
+});
 function paste() {
   navigator.clipboard
     .readText()
@@ -177,6 +195,10 @@ async function gemini(apiKey, userMessage) {
 
     if (text) {
       answer.textContent = text;
+      if (text) {
+  answer.textContent = text;
+  mostrarBotaoCopiar();  // <<< adiciona aqui para mostrar o botão ao ter a resposta
+}
     } else {
       console.warn("Resposta com formato inesperado:", data);
       answer.textContent = "Resposta inválida do servidor.";
