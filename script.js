@@ -1,3 +1,5 @@
+import { marked, Marked } from "./node_modules/marked/lib/marked.esm.js";
+
 const btnPaste = document.querySelector(".paste-icon");
 const geminiButton = document.querySelector("#gemini-button");
 const submitButton = document.querySelector("#submit-key");
@@ -5,8 +7,11 @@ const form = document.querySelector("#openai-form");
 const formKey = document.querySelector("#key-form");
 const keyError = document.querySelector("#key-error");
 const answer = document.querySelector(".answer");
+
+
 const question = document.querySelector("#question");
 const loadingIcon = document.querySelector(".loading");
+
 function paste() {
   navigator.clipboard
     .readText()
@@ -137,6 +142,7 @@ async function gemini(apiKey, userMessage) {
 
     const data = await resp.json();
     let text = null;
+
     if (data?.contents?.[0]?.parts?.[0]?.text) {
       text = data.contents[0].parts[0].text;
     } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
@@ -144,7 +150,9 @@ async function gemini(apiKey, userMessage) {
     }
 
     if (text) {
-      answer.textContent = text;
+      answer.innerHTML= marked(text);
+    
+      
     } else {
       console.warn("Resposta com formato inesperado:", data);
       answer.textContent = "Resposta inválida do servidor.";
@@ -165,8 +173,16 @@ async function gemini(apiKey, userMessage) {
 
 geminiButton.addEventListener("click", () => {
   answer.style.display = "flex";
+  answer.style.flexDirection = "column";
+  answer.style.backgroundColor =' transparent';
+  answer.style.textAlign ='left';
+  answer.style.fontSizeAdjust =  '20px';
+  answer.style.margin = '30px';
+  answer.style.fontFamily= 'Arial, Helvetica, sans-serif';
+
   loadingIcon.style.display = "flex";
   question.style.display = "none";
+
   const apiKey = (localStorage.getItem("openai-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);

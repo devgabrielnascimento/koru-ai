@@ -1,0 +1,16 @@
+  {
+  "name": "koru-ai",
+  "version": "1.0.0",
+  "description": "",
+  "type":"module",
+  "main": "js/script.js",
+  "scripts": {
+    "start": "index.html"
+  },
+  "keywords": ["openai-key"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "marked": "^16.1.2"
+  }
+}
