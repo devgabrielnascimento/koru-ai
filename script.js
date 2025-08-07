@@ -4,9 +4,13 @@ const btnPaste = document.querySelector(".paste-icon");
 const geminiButton = document.querySelector("#gemini-button");
 const submitButton = document.querySelector("#submit-key");
 const form = document.querySelector("#openai-form");
+const formKey = document.querySelector("#key-form");
 const keyError = document.querySelector("#key-error");
 const answer = document.querySelector(".answer");
 
+
+const question = document.querySelector("#question");
+const loadingIcon = document.querySelector(".loading");
 
 function paste() {
   navigator.clipboard
@@ -24,6 +28,11 @@ form.addEventListener("submit", function (event) {
   event.preventDefault();
 });
 
+
+formKey.addEventListener("submit", function (event) {
+  event.preventDefault();
+});
+
 window.addEventListener("DOMContentLoaded", () => {
   const savedKey = localStorage.getItem("openai-key");
   if (savedKey) {
@@ -32,7 +41,6 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 btnPaste.addEventListener("click", paste);
-
 
 async function submitKey() {
   const apiKey = document.getElementById("openai-key").value.trim();
@@ -92,9 +100,19 @@ async function gemini(apiKey, userMessage) {
     return;
   }
 
+  answer.style.display = "flex";
+
+  const sendIcon = document.querySelector(".send-icon");
+  sendIcon.classList.remove("hover-enabled-icon");
+
+  const message = document.getElementById("message");
+  message.value = "";
+  message.disabled = true;
+  message.classList.remove("hover-enabled");
+  geminiButton.classList.remove("hover-enabled-btn");
+  loadingIcon.style.display = "flex";
   geminiButton.disabled = true;
   geminiButton.setAttribute("aria-disabled", "true");
-  answer.textContent = "Carregando...";
 
   try {
     const resp = await fetch(
@@ -124,7 +142,6 @@ async function gemini(apiKey, userMessage) {
 
     const data = await resp.json();
     let text = null;
-    
 
     if (data?.contents?.[0]?.parts?.[0]?.text) {
       text = data.contents[0].parts[0].text;
@@ -144,6 +161,11 @@ async function gemini(apiKey, userMessage) {
     console.error(err);
     answer.textContent = "Erro ao consultar a API: " + (err.message || err);
   } finally {
+    message.classList.add("hover-enabled");
+    geminiButton.classList.add("hover-enabled-btn");
+    sendIcon.classList.add("hover-enabled-icon");
+    loadingIcon.style.display = "none";
+    message.disabled = false;
     geminiButton.disabled = false;
     geminiButton.setAttribute("aria-disabled", "false");
   }
@@ -157,6 +179,10 @@ geminiButton.addEventListener("click", () => {
   answer.style.fontSizeAdjust =  '20px';
   answer.style.margin = '30px';
   answer.style.fontFamily= 'Arial, Helvetica, sans-serif';
+
+  loadingIcon.style.display = "flex";
+  question.style.display = "none";
+
   const apiKey = (localStorage.getItem("openai-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);
