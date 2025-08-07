@@ -100,8 +100,6 @@ async function gemini(apiKey, userMessage) {
     return;
   }
 
-  answer.style.display = "flex";
-
   const sendIcon = document.querySelector(".send-icon");
   sendIcon.classList.remove("hover-enabled-icon");
 
@@ -148,11 +146,8 @@ async function gemini(apiKey, userMessage) {
     } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
       text = data.candidates[0].content.parts[0].text;
     }
-
     if (text) {
       answer.innerHTML= marked(text);
-    
-      
     } else {
       console.warn("Resposta com formato inesperado:", data);
       answer.textContent = "Resposta inválida do servidor.";
@@ -179,10 +174,8 @@ geminiButton.addEventListener("click", () => {
   answer.style.fontSizeAdjust =  '20px';
   answer.style.margin = '30px';
   answer.style.fontFamily= 'Arial, Helvetica, sans-serif';
-
   loadingIcon.style.display = "flex";
   question.style.display = "none";
-
   const apiKey = (localStorage.getItem("openai-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);
