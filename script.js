@@ -23,7 +23,6 @@ form.addEventListener("submit", function (event) {
   event.preventDefault();
 });
 
-
 formKey.addEventListener("submit", function (event) {
   event.preventDefault();
 });
@@ -95,6 +94,8 @@ async function gemini(apiKey, userMessage) {
     return;
   }
 
+  answer.style.display = "flex";
+
   const sendIcon = document.querySelector(".send-icon");
   sendIcon.classList.remove("hover-enabled-icon");
 
@@ -140,6 +141,7 @@ async function gemini(apiKey, userMessage) {
     } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
       text = data.candidates[0].content.parts[0].text;
     }
+
     if (text) {
       answer.textContent = text;
     } else {
@@ -164,6 +166,7 @@ geminiButton.addEventListener("click", () => {
   answer.style.display = "flex";
   loadingIcon.style.display = "flex";
   question.style.display = "none";
+
   const apiKey = (localStorage.getItem("openai-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);
