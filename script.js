@@ -2,6 +2,7 @@ const btnPaste = document.querySelector(".paste-icon");
 const geminiButton = document.querySelector("#gemini-button");
 const submitButton = document.querySelector("#submit-key");
 const form = document.querySelector("#openai-form");
+const formKey = document.querySelector("#key-form");
 const keyError = document.querySelector("#key-error");
 const answer = document.querySelector(".answer");
 const question = document.querySelector("#question");
@@ -19,6 +20,11 @@ function paste() {
 }
 
 form.addEventListener("submit", function (event) {
+  event.preventDefault();
+});
+
+
+formKey.addEventListener("submit", function (event) {
   event.preventDefault();
 });
 
