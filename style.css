@@ -38,7 +38,7 @@ body {
   );
 }
 
-#oiboi {
+#menuopces {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,7 +85,7 @@ body {
   transform: translateX(0);
 }
 
-#oiboi2 {
+#main {
   display: flex;
   /* background-color: green; */
   height: 100%;
@@ -693,7 +693,32 @@ span {
   }
 }
 
-@media screen and (max-width: 490px) {
+@media screen and (max-width: 550px) {
+
+  body {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  #menuopcoes {
+    padding: 14px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 20%;
+  }
+    
+  }
+    .hamburger {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: static;
+    
+  }
   header {
     padding: 14px;
   }
@@ -711,7 +736,7 @@ span {
   }
 
   h2 {
-    font-size: 36px;
+    font-size: 33px;
   }
   #key-error {
     font-size: 10px;
@@ -722,7 +747,7 @@ span {
   .answer {
     width: 300px;
   }
-}
+
 /* CSS para o botão "Copiar Resposta" */
 #copiarResposta {
   display: none; /* começa escondido */
