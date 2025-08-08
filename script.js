@@ -188,7 +188,6 @@ textarea.addEventListener("input", () => {
   textarea.style.height = "auto"; //
   textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px"; //
 });
-
 function enableMessage() {
   message.disabled = false;
   message.classList.add("hover-enabled");
