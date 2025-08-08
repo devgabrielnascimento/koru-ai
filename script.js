@@ -10,6 +10,8 @@ const loadingIcon = document.querySelector(".loading");
 const copyIcon = document.querySelector("#copy-icon");
 const message = document.querySelector("#message");
 const clearIcon = document.querySelector("#clear-button");
+const historyArray = [];
+const historyIcon = document.querySelector("#history-icon");
 function paste() {
   navigator.clipboard
     .readText()
@@ -21,6 +23,43 @@ function paste() {
       console.error("Erro ao ler clipboard:", err);
     });
 }
+function copy() {
+  navigator.clipboard
+    .writeText(answer.textContent)
+    .then(() => {
+      console.log("Texto copiado com sucesso!");
+    })
+    .catch((err) => {
+      console.error("Erro ao copiar o texto:", err);
+    });
+}
+const sun = document.querySelector(".theme-display-sun");
+const moon = document.querySelector(".theme-display-moon");
+const body = document.querySelector("body");
+function themeChanger() {
+  
+
+  if (sun.style.display === "flex") {
+    sun.style.display = "none";
+    moon.style.display = "flex";
+    body.style.background = "#222222";
+  } else {
+  sun.style.display = "flex";
+  moon.style.display = "none";
+  body.style.background = `linear-gradient(
+    to bottom,
+    #b621ff 0%,
+    #8a21c1 8%,
+    #5d1189 50%,
+    #222222 93%
+  )`;
+}
+}
+
+sun.addEventListener("click", themeChanger);
+moon.addEventListener("click", themeChanger);
+
+copyIcon.addEventListener("click", copy);
 
 document.addEventListener("input", function (event) {
   if (event.target.classList.contains("TxtObservations")) {
@@ -87,6 +126,10 @@ document
     btn.addEventListener("mousedown", (e) => e.preventDefault())
   );
 
+const menu = document.querySelector(".menu");
+
+const btnMenu = document.getElementById("btn-menu");
+
 async function submitKey() {
   const apiKey = document.getElementById("openai-key").value.trim();
   try {
@@ -144,8 +187,8 @@ function disableMessage() {
 const textarea = document.querySelector("textarea");
 
 textarea.addEventListener("input", () => {
-  textarea.style.height = "auto"; // reseta altura para recalcular
-  textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px"; // limita a 200px
+  textarea.style.height = "auto"; //
+  textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px"; //
 });
 
 function enableMessage() {
@@ -157,8 +200,89 @@ function enableMessage() {
   geminiButton.removeAttribute("aria-disabled");
 }
 
-async function gemini(apiKey, userMessage) {
-  // validação defensiva dentro da função também
+const hamburger = document.querySelector(".hamburger");
+
+function toggleMenu() {
+  if (menu.classList.contains("showMenu")) {
+    menu.classList.remove("showMenu");
+  } else {
+    menu.classList.add("showMenu");
+  }
+}
+
+hamburger.addEventListener("click", toggleMenu);
+
+function historyList() {
+  historyArray.forEach((item) => {
+    const li = document.createElement("li");
+    li.textContent = `Pergunta: ${item.pergunta} - Resposta: ${item.resposta}`;
+    menu.appendChild(li);
+  });
+}
+const historico = document.getElementById("historico");
+historico.addEventListener("click", historyList);
+
+const dropdown = document.getElementById("modelDropdown");
+const btn = dropdown.querySelector(".dropdown-btn");
+const list = dropdown.querySelector(".dropdown-list");
+
+btn.addEventListener("click", () => {
+  dropdown.classList.toggle("open");
+});
+
+list.querySelectorAll("div").forEach((item) => {
+  item.addEventListener("click", () => {
+    btn.textContent = item.textContent;
+    dropdown.classList.remove("open");
+  });
+});
+
+window.addEventListener("click", (e) => {
+  if (!dropdown.contains(e.target)) {
+    dropdown.classList.remove("open");
+  }
+});
+
+async function modelList() {
+  const apiKey = localStorage.getItem("openai-key");
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(
+      apiKey
+    )}`,
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+  const data = await resp.json();
+  console.log(data);
+  const list = document.getElementsByClassName("dropdown-list")[0];
+  data.models.forEach((model) => {
+    const div = document.createElement("div");
+    div.setAttribute("data-model", model.name);
+    div.textContent = model.name;
+    list.appendChild(div);
+    div.addEventListener("click", () => {
+      chooseModel(model.name);
+    });
+  });
+}
+
+modelList();
+let lastSelectedModel = null;
+function chooseModel(selectedModel) {
+  const apiKey = localStorage.getItem("openai-key");
+  const userMessage = document.getElementById("message").value.trim();
+  lastSelectedModel = selectedModel;
+  console.log("Modelo selecionado:", lastSelectedModel);
+  if (!selectedModel) {
+    alert("Escolha um modelo primeiro");
+    return;
+  }
+  gemini(apiKey, userMessage, selectedModel);
+}
+
+async function gemini(apiKey, userMessage, modelName) {
   if (!apiKey || !apiKey.trim()) {
     answer.textContent = "Chave da API não encontrada. Salve primeiro.";
     return;
@@ -211,16 +335,25 @@ async function gemini(apiKey, userMessage) {
     const data = await resp.json();
     let text = null;
     if (data?.contents?.[0]?.parts?.[0]?.text) {
-      text = data.contents[0].parts[0].text;
+      text =
+        "Sua pergunta: " +
+        userMessage +
+        "\n\n" +
+        data.contents[0].parts[0].text;
     } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      text = data.candidates[0].content.parts[0].text;
+      loadingIcon.style.display = "none";
+      text =
+        "Sua pergunta: " +
+        userMessage +
+        "\n\n" +
+        data.candidates[0].content.parts[0].text;
     }
 
     if (text) {
       const letras = text.split("");
 
-      answer.innerHTML = "";
-
+      document.querySelector(".answer").textContent = "";
+      answer.style.whiteSpace = "pre-line";
       let i = 0;
 
       const intervalo = setInterval(() => {
@@ -233,6 +366,7 @@ async function gemini(apiKey, userMessage) {
           clearInterval(intervalo);
           enableMessage();
           loadingIcon.style.display = "none";
+          historyArray.push({ pergunta: userMessage, resposta: text });
         }
       }, 30);
     } else {
@@ -257,7 +391,11 @@ geminiButton.addEventListener("click", () => {
   answer.style.display = "flex";
   loadingIcon.style.display = "flex";
   question.style.display = "none";
-
+  copyIcon.style.display = "flex";
+  // if (!lastSelectedModel) {
+  //   alert("Escolha um modelo primeiro");
+  //   return;
+  // }
   const apiKey = (localStorage.getItem("openai-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);

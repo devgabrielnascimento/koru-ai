@@ -24,8 +24,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   background: linear-gradient(
@@ -37,10 +38,67 @@ body {
   );
 }
 
+#oiboi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  background-color: rgba(255, 255, 255, 0.01);
+  height: 100%;
+  padding: 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hamburger {
+  position: fixed;
+  z-index: 100;
+  top: 60px;
+  left: 10px;
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  transform: translatex(-100%);
+  transition: transform 0.2s;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(255, 255, 255, 0.01);
+  color: white;
+  list-style: none;
+  padding-top: 4rem;
+}
+
+.showMenu {
+  transform: translateX(0);
+}
+
+#oiboi2 {
+  display: flex;
+  /* background-color: green; */
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 header {
   position: sticky;
   top: 0;
   left: 0;
+  flex-direction: column;
   z-index: 1;
   width: 100%;
   display: flex;
@@ -60,7 +118,6 @@ nav {
 }
 
 nav svg {
-  width: 108px;
   height: auto;
   grid-column: 0.1;
 }
@@ -85,6 +142,13 @@ nav > div > svg {
   width: 14px;
   height: 12px;
   stroke-width: 1.5px;
+}
+.theme-display-moon {
+  display: flex;
+}
+
+.theme-display-sun {
+  display: none;
 }
 
 @keyframes fadeIn {
@@ -241,8 +305,6 @@ form:focus textarea {
   transition: all 0.8s ease-in-out;
 }
 
-
-
 form:hover .disabled-btn,
 form:hover .paste-icon,
 form:hover .key-icon {
@@ -302,18 +364,28 @@ svg path ~ input:focus {
   justify-content: center;
 }
 .model-dropdown {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  gap: 10px;
+  appearance: none; /* remove estilo padrão */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  stroke: none;
+  background: linear-gradient(to right, #b635ff, #8b2cff);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: none;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+
+  /* espaço para a setinha customizada */
+  padding-right: 40px;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 13 24" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
 }
 
-.model-dropdown svg {
-  width: 16px;
-  height: 16px;
-}
+
 .section-text button {
   display: flex;
   justify-content: center;
@@ -327,7 +399,79 @@ svg path ~ input:focus {
   color: var(--tertiary-color);
   border: none;
   border-radius: 45px;
+  opacity: 0.1;
 }
+
+
+div#modelDropdown {
+    background: transparent;
+
+}
+
+
+
+  .dropdown {
+    position: relative;
+    width: 280px;
+  }
+
+  
+  .dropdown-btn {
+    background: linear-gradient(to right, #b635ff, #8b2cff);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+  }
+
+
+  .dropdown-btn::after {
+    content: "▼";
+    font-size: 12px;
+    margin-left: 10px;
+  }
+
+  /* lista de opções */
+  .dropdown-list {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    max-height: 200px; /* <<< altura máxima da lista */
+    overflow-y: auto;
+    display: none;
+    z-index: 10;
+  }
+
+  .dropdown-list div {
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .dropdown-list div:hover {
+    background: var(--quaternary-color);
+  }
+
+  /* mostrar lista */
+  .dropdown.open .dropdown-list {
+    display: block;
+    animation: fadeIn 0.15s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-5px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
 
 #gemini-link {
   text-decoration: none;
@@ -357,14 +501,15 @@ span {
 
 .askAnything {
   position: relative;
+  max-width: 650px;
   display: none; /* Lembrar de mudar aqui*/
   flex-direction: column;
   align-items: center;
   justify-content: center;
   line-height: 1;
   width: 100%;
-  
-    gap: 20px;
+
+  gap: 20px;
   animation: fadeIn 3s ease-in-out;
 }
 
@@ -385,10 +530,10 @@ span {
 
 .askAnything textarea {
   resize: none;
-  width: 675px;
+  width: 100%;
   min-height: 10px;
   max-height: 300px;
-line-height: normal;
+  line-height: normal;
   padding: 20px 10px 10px 10px;
   border-radius: 5px 5px 0px 0px;
   border: 0.5px solid gray;
@@ -448,18 +593,12 @@ line-height: normal;
   transition: all 0.2s ease-in-out;
 }
 
-
-
-
-
-
-
 .send-icon {
   fill: white;
   pointer-events: none;
 }
 
-.sendicon.hover-enabled-icon {
+.send-icon.hover-enabled-icon {
   opacity: 1;
   pointer-events: all;
 }
@@ -495,7 +634,7 @@ line-height: normal;
   display: none;
   position: absolute;
   right: 40px;
-  top: 30px;
+  top: 40px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -547,7 +686,7 @@ line-height: normal;
   }
 
   .askAnything textarea {
-  width: 100%;
+    width: 100%;
   }
   .answer {
     width: 100%;
