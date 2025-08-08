@@ -16,7 +16,7 @@ function paste() {
   navigator.clipboard
     .readText()
     .then((clipText) => {
-      const keyInput = document.getElementById("openai-key");
+      const keyInput = document.getElementById("gemini-key");
       keyInput.value += clipText;
     })
     .catch((err) => {
@@ -37,23 +37,21 @@ const sun = document.querySelector(".theme-display-sun");
 const moon = document.querySelector(".theme-display-moon");
 const body = document.querySelector("body");
 function themeChanger() {
-  
-
   if (sun.style.display === "flex") {
     sun.style.display = "none";
     moon.style.display = "flex";
     body.style.background = "#222222";
   } else {
-  sun.style.display = "flex";
-  moon.style.display = "none";
-  body.style.background = `linear-gradient(
+    sun.style.display = "flex";
+    moon.style.display = "none";
+    body.style.background = `linear-gradient(
     to bottom,
     #b621ff 0%,
     #8a21c1 8%,
     #5d1189 50%,
     #222222 93%
   )`;
-}
+  }
 }
 
 sun.addEventListener("click", themeChanger);
@@ -112,9 +110,9 @@ formKey.addEventListener("submit", function (event) {
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-  const savedKey = localStorage.getItem("openai-key");
+  const savedKey = localStorage.getItem("gemini-key");
   if (savedKey) {
-    document.getElementById("openai-key").value = savedKey;
+    document.getElementById("gemini-key").value = savedKey;
   }
 });
 
@@ -131,7 +129,7 @@ const menu = document.querySelector(".menu");
 const btnMenu = document.getElementById("btn-menu");
 
 async function submitKey() {
-  const apiKey = document.getElementById("openai-key").value.trim();
+  const apiKey = document.getElementById("gemini-key").value.trim();
   try {
     const resp = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(
@@ -151,14 +149,14 @@ async function submitKey() {
       keyError.textContent =
         "Limite de chamadas atingido. Tente novamente mais tarde.";
       // } else if (resp.status === 200) {
-      //   localStorage.removeItem("openai-key", apiKey);
+      //   localStorage.removeItem("gemini-key", apiKey);
       //   throw new Error(`Chave inválida ou erro na API: status ${resp.status}`);
       // }
     } else if (resp.status === 403) {
       keyError.style.color = "white";
-      keyError.textContent = "Campo obrigatório: Chave da OpenAI";
+      keyError.textContent = "Campo obrigatório: Chave da Gemini";
     } else if (resp.status === 200) {
-      localStorage.setItem("openai-key", apiKey);
+      localStorage.setItem("gemini-key", apiKey);
       const sectionText = document.querySelector(".section-text");
       const askAnything = document.querySelector(".askAnything");
       sectionText.style.display = "none";
@@ -244,7 +242,7 @@ window.addEventListener("click", (e) => {
 });
 
 async function modelList() {
-  const apiKey = localStorage.getItem("openai-key");
+  const apiKey = localStorage.getItem("gemini-key");
   const resp = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(
       apiKey
@@ -271,7 +269,7 @@ async function modelList() {
 modelList();
 let lastSelectedModel = null;
 function chooseModel(selectedModel) {
-  const apiKey = localStorage.getItem("openai-key");
+  const apiKey = localStorage.getItem("gemini-key");
   const userMessage = document.getElementById("message").value.trim();
   lastSelectedModel = selectedModel;
   console.log("Modelo selecionado:", lastSelectedModel);
@@ -396,7 +394,7 @@ geminiButton.addEventListener("click", () => {
   //   alert("Escolha um modelo primeiro");
   //   return;
   // }
-  const apiKey = (localStorage.getItem("openai-key") || "").trim();
+  const apiKey = (localStorage.getItem("gemini-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);
 });
