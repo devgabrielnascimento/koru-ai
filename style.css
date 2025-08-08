@@ -169,7 +169,6 @@ form {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
   width: 100%;
 }
 input {
@@ -193,7 +192,6 @@ input::placeholder {
 input:focus {
   opacity: 1;
   outline: none;
-  border: 0.5px solid #ffffff;
 }
 
 form:hover input,
@@ -202,9 +200,17 @@ form:focus-within input .paste-icon {
   transition: all 0.8s ease-in-out;
 }
 
+form:hover textarea,
+form:hover .buttons-textarea {
+  opacity: 1;
+  transition: all 0.8s ease-in-out;
+}
+
 #message.hover-enabled:hover {
   opacity: 1;
   transition: all 0.8s ease-in-out;
+  outline: none;
+  border: none;
 }
 
 #gemini-button.hover-enabled-btn:hover {
@@ -212,10 +218,30 @@ form:focus-within input .paste-icon {
   transition: all 0.8s ease-in-out;
 }
 
-form:focus-within textarea {
+form:focus textarea {
+  opacity: 1;
+  transition: all 0.8s ease-in-out;
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.askAnything textarea {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.askAnything textarea:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.askAnything:focus-within .buttons-textarea {
   opacity: 1;
   transition: all 0.8s ease-in-out;
 }
+
+
 
 form:hover .disabled-btn,
 form:hover .paste-icon,
@@ -310,7 +336,7 @@ svg path ~ input:focus {
 #gemini-link:hover {
   opacity: 0.8;
   transition: all 0.2s ease-in-out;
-}   
+}
 
 span {
   font-family: var(--poppins-font);
@@ -318,9 +344,6 @@ span {
   color: var(--tertiary-color);
   font-size: 12px;
 }
-
-
-
 
 #key-error {
   font-family: var(--poppins-font);
@@ -334,13 +357,23 @@ span {
 
 .askAnything {
   position: relative;
-  display: none;
+  display: none; /* Lembrar de mudar aqui*/
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   line-height: 1;
-  gap: 20px;
+  width: 100%;
+  
+    gap: 20px;
   animation: fadeIn 3s ease-in-out;
+}
+
+.askAnything form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .askAnything p {
@@ -351,20 +384,21 @@ span {
 }
 
 .askAnything textarea {
-  width: 100%;
   resize: none;
-  max-width: 100%;
-  height: 100px;
-  line-height: 1.8;
-  padding: 16px 60px 16px 18px;
-  border-radius: 5px;
+  width: 675px;
+  min-height: 10px;
+  max-height: 300px;
+line-height: normal;
+  padding: 20px 10px 10px 10px;
+  border-radius: 5px 5px 0px 0px;
   border: 0.5px solid gray;
   font-family: var(--poppins-font);
   font-weight: var(--poppins-light);
   font-size: 16px;
   color: var(--text-color);
-  background: var(--quaternary-color);
   opacity: 0.1;
+  background: var(--quaternary-color);
+  /* opacity: 0.1; */
 }
 .askAnything textarea::-webkit-scrollbar {
   display: none;
@@ -380,8 +414,41 @@ span {
   transition: all 0.8s ease-in-out;
 }
 
+.buttons-textarea {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 10px;
+  gap: 30px;
+  width: 100%;
+  height: 48px;
+  background: var(--quaternary-color);
+  border-radius: 0px 0px 5px 5px;
+  opacity: 0.1;
+}
+
+.buttons-textarea button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
+  border: none;
+  border-radius: 45px;
+}
+
+.buttons-textarea button:nth-of-type(1) svg circle {
+  fill: transparent;
+}
+
+.buttons-textarea button:hover {
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+}
+
 .send-icon {
-  height: 20px;
   fill: white;
   pointer-events: none;
 }
@@ -389,21 +456,6 @@ span {
 .sendicon.hover-enabled-icon {
   opacity: 1;
   pointer-events: all;
-}
-
-.askAnything button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 10px;
-  bottom: 25px;
-  width: 40px;
-  height: 40px;
-  background-color: var(--primary-color);
-  color: var(--tertiary-color);
-  border: none;
-  border-radius: 45px;
 }
 
 #question {
@@ -414,7 +466,6 @@ span {
   display: none;
   position: relative;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
   text-align: left;
   font-family: var(--poppins-font);
@@ -422,16 +473,15 @@ span {
   font-size: 16px;
   color: var(--text-color);
   animation: fadeIn 3s ease-in-out;
-  width: 500px;
+
+  width: 675px;
   padding: 30px 61px;
-  height: auto;
+  height: 100%;
   max-height: 300px;
-  overflow-x: auto;
-    scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE e Edge antigo */
+  overflow: hidden scroll;
 }
 
-.answer ::scroll-marker {
+.answer::-webkit-scrollbar {
   display: none;
 }
 
@@ -447,8 +497,6 @@ span {
 #copy-icon:hover {
   opacity: 0.8;
 }
-
-
 
 .loading {
   display: none;
@@ -490,6 +538,13 @@ span {
 
   #question {
     font-size: 24px;
+  }
+
+  .askAnything textarea {
+  width: 100%;
+  }
+  .answer {
+    width: 100%;
   }
 }
 

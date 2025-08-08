@@ -9,6 +9,7 @@ const question = document.querySelector("#question");
 const loadingIcon = document.querySelector(".loading");
 const copyIcon = document.querySelector("#copy-icon");
 const message = document.querySelector("#message");
+const clearIcon = document.querySelector("#clear-button");
 function paste() {
   navigator.clipboard
     .readText()
@@ -68,6 +69,15 @@ document.addEventListener("input", function (event) {
     }
   }
 });
+
+function cleanAnswer () {
+  answer.style.display = "none";
+  loadingIcon.style.display = "none";
+  question.style.display = "flex";
+  copyIcon.style.display = "none";
+}
+
+clearIcon.addEventListener("click", cleanAnswer);
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -138,6 +148,13 @@ function disableMessage() {
   geminiButton.setAttribute("aria-disabled", "true");
 }
 
+const textarea = document.querySelector("textarea");
+
+textarea.addEventListener("input", () => {
+  textarea.style.height = "auto"; // reseta altura para recalcular
+  textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px"; // limita a 200px
+});
+
 function enableMessage() {
   message.disabled = false;
   message.classList.add("hover-enabled");
@@ -146,6 +163,7 @@ function enableMessage() {
   geminiButton.disabled = false;
   geminiButton.removeAttribute("aria-disabled");
 }
+
 
 
 async function gemini(apiKey, userMessage) {
@@ -217,7 +235,7 @@ async function gemini(apiKey, userMessage) {
         answer.innerHTML += letras[i];
         i++;
         if (i < letras.length) {
-          answer.scrollTop = answer.scrollHeight;
+        
        disableMessage();
         }
         if (i >= letras.length) {
