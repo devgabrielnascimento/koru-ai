@@ -144,11 +144,11 @@ nav > div > svg {
   stroke-width: 1.5px;
 }
 .theme-display-moon {
-  display: flex;
+  display: none;
 }
 
 .theme-display-sun {
-  display: none;
+  display: flex;
 }
 
 @keyframes fadeIn {
