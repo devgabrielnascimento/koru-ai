@@ -412,8 +412,6 @@ span {
 
 .answer {
   display: none;
-  position: relative;
-  flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   text-align: left;
@@ -423,32 +421,15 @@ span {
   color: var(--text-color);
   animation: fadeIn 3s ease-in-out;
   width: 500px;
-  padding: 30px 61px;
+  padding: 30px 20px;
   height: auto;
   max-height: 300px;
   overflow-x: auto;
-    scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE e Edge antigo */
 }
 
 .answer ::scroll-marker {
   display: none;
 }
-
-#copy-icon {
-  display: none;
-  position: absolute;
-  right: 40px;
-  top: 30px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-#copy-icon:hover {
-  opacity: 0.8;
-}
-
-
 
 .loading {
   display: none;
