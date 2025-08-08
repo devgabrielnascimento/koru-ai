@@ -156,7 +156,14 @@ async function submitKey() {
       keyError.style.color = "white";
       keyError.textContent = "Campo obrigatório: Chave da Gemini";
     } else if (resp.status === 200) {
+      console.log("Teste setTimeout funcionando");
+      const keyInput = document.getElementById("gemini-key");
+      keyInput.type = "text"; // mostra o texto para teste
+      keyInput.value = "validado";
+      keyInput.style.backgroundColor = "green";
+
       localStorage.setItem("gemini-key", apiKey);
+
       const sectionText = document.querySelector(".section-text");
       const askAnything = document.querySelector(".askAnything");
       sectionText.style.display = "none";
@@ -364,6 +371,9 @@ async function gemini(apiKey, userMessage, modelName) {
           enableMessage();
           loadingIcon.style.display = "none";
           historyArray.push({ pergunta: userMessage, resposta: text });
+          setTimeout(() => {
+            answer.scrollIntoView({ behavior: "smooth" });
+          }, 100);
         }
       }, 30);
     } else {
@@ -383,7 +393,26 @@ async function gemini(apiKey, userMessage, modelName) {
     geminiButton.setAttribute("aria-disabled", "false");
   }
 }
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    
+      answer.style.display = "flex";
+      loadingIcon.style.display = "flex";
+      question.style.display = "none";
+      copyIcon.style.display = "flex";
+      // if (!lastSelectedModel) {
+      //   alert("Escolha um modelo primeiro");
+      //   return;
+      // }
+      const apiKey = (localStorage.getItem("gemini-key") || "").trim();
+      const userMessage = document.getElementById("message").value.trim();
+      gemini(apiKey, userMessage);
+      console.log("Enter foi pressionado!");
+    }});
 
+    // aqui coloca o que quer executar no atalho
+  
+;
 geminiButton.addEventListener("click", () => {
   answer.style.display = "flex";
   loadingIcon.style.display = "flex";

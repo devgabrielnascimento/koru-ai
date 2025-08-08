@@ -145,10 +145,12 @@ nav > div > svg {
 }
 .theme-display-moon {
   display: none;
+  cursor: pointer;
 }
 
 .theme-display-sun {
   display: flex;
+  cursor: pointer;
 }
 
 @keyframes fadeIn {
