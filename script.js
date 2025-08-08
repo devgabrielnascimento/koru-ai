@@ -55,7 +55,7 @@ document.addEventListener("input", function (event) {
   }
 });
 
-function cleanAnswer () {
+function cleanAnswer() {
   answer.style.display = "none";
   loadingIcon.style.display = "none";
   question.style.display = "flex";
@@ -80,6 +80,12 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 btnPaste.addEventListener("click", paste);
+
+document
+  .querySelectorAll(".buttons-textarea button")
+  .forEach((btn) =>
+    btn.addEventListener("mousedown", (e) => e.preventDefault())
+  );
 
 async function submitKey() {
   const apiKey = document.getElementById("openai-key").value.trim();
@@ -151,8 +157,6 @@ function enableMessage() {
   geminiButton.removeAttribute("aria-disabled");
 }
 
-
-
 async function gemini(apiKey, userMessage) {
   // validação defensiva dentro da função também
   if (!apiKey || !apiKey.trim()) {
@@ -223,14 +227,12 @@ async function gemini(apiKey, userMessage) {
         answer.innerHTML += letras[i];
         i++;
         if (i < letras.length) {
-        
-       disableMessage();
+          disableMessage();
         }
         if (i >= letras.length) {
           clearInterval(intervalo);
-         enableMessage();
+          enableMessage();
           loadingIcon.style.display = "none";
-          
         }
       }, 30);
     } else {
