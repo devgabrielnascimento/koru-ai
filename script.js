@@ -22,21 +22,6 @@ function paste() {
     });
 }
 
-btnPaste.addEventListener("click", paste);
-
-function copy() {
-  navigator.clipboard
-    .writeText(answer.textContent)
-    .then(() => {
-      console.log("Texto copiado com sucesso!");
-    })
-    .catch((err) => {
-      console.error("Erro ao copiar texto:", err);
-    });
-}
-
-copyIcon.addEventListener("click", copy);
-
 document.addEventListener("input", function (event) {
   if (event.target.classList.contains("TxtObservations")) {
     const limite = 500;
@@ -93,6 +78,8 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("openai-key").value = savedKey;
   }
 });
+
+btnPaste.addEventListener("click", paste);
 
 async function submitKey() {
   const apiKey = document.getElementById("openai-key").value.trim();
@@ -176,17 +163,20 @@ async function gemini(apiKey, userMessage) {
     answer.textContent = "Digite sua pergunta antes de enviar.";
     return;
   }
+
   answer.style.display = "flex";
-  copyIcon.style.display = "flex";
 
   const sendIcon = document.querySelector(".send-icon");
   sendIcon.classList.remove("hover-enabled-icon");
 
   const message = document.getElementById("message");
-  disableMessage();
-
+  message.value = "";
+  message.disabled = true;
+  message.classList.remove("hover-enabled");
+  geminiButton.classList.remove("hover-enabled-btn");
   loadingIcon.style.display = "flex";
-
+  geminiButton.disabled = true;
+  geminiButton.setAttribute("aria-disabled", "true");
 
   try {
     const resp = await fetch(
@@ -208,8 +198,6 @@ async function gemini(apiKey, userMessage) {
         }),
       }
     );
-
-   
 
     if (!resp.ok) {
       const errText = await resp.text().catch(() => "");
@@ -253,8 +241,13 @@ async function gemini(apiKey, userMessage) {
     console.error(err);
     answer.textContent = "Erro ao consultar a API: " + (err.message || err);
   } finally {
-  enableMessage();
+    message.classList.add("hover-enabled");
+    geminiButton.classList.add("hover-enabled-btn");
+    sendIcon.classList.add("hover-enabled-icon");
     loadingIcon.style.display = "none";
+    message.disabled = false;
+    geminiButton.disabled = false;
+    geminiButton.setAttribute("aria-disabled", "false");
   }
 }
 
