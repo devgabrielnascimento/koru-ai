@@ -109,8 +109,6 @@ document.addEventListener("input", function (event) {
       geminiButton.disabled = false;
       geminiButton.removeAttribute("aria-disabled");
     } else if (limite === caracteresDigitados) {
-      geminiButton.classList.remove("hover-enabled-btn");
-      geminiButton.disabled = true;
       geminiButton.setAttribute("aria-disabled", "true");
       span.style.color = "red";
     } else {
