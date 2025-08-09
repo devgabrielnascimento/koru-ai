@@ -144,11 +144,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
-
-
-
-
 btnPaste.addEventListener("click", paste);
 
 document
@@ -452,5 +447,4 @@ geminiButton.addEventListener("click", () => {
   const apiKey = (localStorage.getItem("gemini-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);
-  
 });
