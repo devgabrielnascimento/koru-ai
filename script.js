@@ -12,6 +12,17 @@ const message = document.querySelector("#message");
 const clearIcon = document.querySelector("#clear-button");
 const historyArray = [];
 const historyIcon = document.querySelector("#history-icon");
+const customAlert = document.querySelector("#custom-alert");
+const askAnything = document.querySelector(".askAnything");
+const closeButton = document.querySelector("#close-button");
+
+function closeVerifiedMessage() {
+  customAlert.style.display = "none";
+  askAnything.style.display = "flex";
+}
+
+closeButton.addEventListener("click", closeVerifiedMessage);
+
 function paste() {
   navigator.clipboard
     .readText()
@@ -132,15 +143,11 @@ async function submitKey() {
   const apiKey = document.getElementById("gemini-key").value.trim();
   try {
     const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(
+      `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(
         apiKey
       )}`,
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ role: "user", parts: [{ text: "Teste de validação" }] }],
-        }),
+        method: "GET",
       }
     );
 
@@ -156,18 +163,12 @@ async function submitKey() {
       keyError.style.color = "white";
       keyError.textContent = "Campo obrigatório: Chave da Gemini";
     } else if (resp.status === 200) {
-      console.log("Teste setTimeout funcionando");
-      const keyInput = document.getElementById("gemini-key");
-      keyInput.type = "text"; // mostra o texto para teste
-      keyInput.value = "validado";
-      keyInput.style.backgroundColor = "green";
-
       localStorage.setItem("gemini-key", apiKey);
 
       const sectionText = document.querySelector(".section-text");
-      const askAnything = document.querySelector(".askAnything");
+
       sectionText.style.display = "none";
-      askAnything.style.display = "flex";
+      customAlert.style.display = "flex";
     } else {
       keyError.style.color = "red";
       keyError.textContent = `Chave inválida ou erro na API: status ${resp.status}`;
@@ -204,7 +205,7 @@ function enableMessage() {
   geminiButton.removeAttribute("aria-disabled");
 }
 
-const hamburger = document.querySelector(".hamburger");
+const history = document.querySelector(".history");
 
 function toggleMenu() {
   if (menu.classList.contains("showMenu")) {
@@ -214,17 +215,18 @@ function toggleMenu() {
   }
 }
 
-hamburger.addEventListener("click", toggleMenu);
+history.addEventListener("click", toggleMenu);
 
 function historyList() {
   historyArray.forEach((item) => {
     const li = document.createElement("li");
-    li.textContent = `Pergunta: ${item.pergunta} - Resposta: ${item.resposta}`;
+    const li2 = document.createElement("li");
+    li.textContent = `Sua pergunta: ${item.userMessage}`;
+    li2.textContent = `Sua resposta: ${item.answer}`;
     menu.appendChild(li);
+    menu.appendChild(li2);
   });
 }
-const historico = document.getElementById("historico");
-historico.addEventListener("click", historyList);
 
 const dropdown = document.getElementById("modelDropdown");
 const btn = dropdown.querySelector(".dropdown-btn");
@@ -343,12 +345,16 @@ async function gemini(apiKey, userMessage, modelName) {
         "Sua pergunta: " +
         userMessage +
         "\n\n" +
+        "Resposta" +
+        "\n\n" +
         data.contents[0].parts[0].text;
     } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
       loadingIcon.style.display = "none";
       text =
         "Sua pergunta: " +
         userMessage +
+        "\n\n" +
+        "Resposta: " +
         "\n\n" +
         data.candidates[0].content.parts[0].text;
     }
@@ -370,7 +376,11 @@ async function gemini(apiKey, userMessage, modelName) {
           clearInterval(intervalo);
           enableMessage();
           loadingIcon.style.display = "none";
-          historyArray.push({ pergunta: userMessage, resposta: text });
+          historyArray.push({
+            userMessage: userMessage,
+            answer: data.candidates[0].content.parts[0].text,
+          });
+          historyList();
           setTimeout(() => {
             answer.scrollIntoView({ behavior: "smooth" });
           }, 100);
@@ -395,24 +405,21 @@ async function gemini(apiKey, userMessage, modelName) {
 }
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    
-      answer.style.display = "flex";
-      loadingIcon.style.display = "flex";
-      question.style.display = "none";
-      copyIcon.style.display = "flex";
-      // if (!lastSelectedModel) {
-      //   alert("Escolha um modelo primeiro");
-      //   return;
-      // }
-      const apiKey = (localStorage.getItem("gemini-key") || "").trim();
-      const userMessage = document.getElementById("message").value.trim();
-      gemini(apiKey, userMessage);
-      console.log("Enter foi pressionado!");
-    }});
+    answer.style.display = "flex";
+    loadingIcon.style.display = "flex";
+    question.style.display = "none";
+    copyIcon.style.display = "flex";
+    // if (!lastSelectedModel) {
+    //   alert("Escolha um modelo primeiro");
+    //   return;
+    // }
+    const apiKey = (localStorage.getItem("gemini-key") || "").trim();
+    const userMessage = document.getElementById("message").value.trim();
+    gemini(apiKey, userMessage);
+    console.log("Enter foi pressionado!");
+  }
+});
 
-    // aqui coloca o que quer executar no atalho
-  
-;
 geminiButton.addEventListener("click", () => {
   answer.style.display = "flex";
   loadingIcon.style.display = "flex";
@@ -425,4 +432,5 @@ geminiButton.addEventListener("click", () => {
   const apiKey = (localStorage.getItem("gemini-key") || "").trim();
   const userMessage = document.getElementById("message").value.trim();
   gemini(apiKey, userMessage);
+  
 });
