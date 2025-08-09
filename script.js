@@ -17,6 +17,7 @@ const askAnything = document.querySelector(".askAnything");
 const closeButton = document.querySelector("#close-button");
 const historyItems = document.querySelector("#history-items");
 const buttonsArea = document.querySelector(".buttons-textarea");
+const checkIcon = document.querySelector("#check-icon");
 
 function closeVerifiedMessage() {
   customAlert.style.display = "none";
@@ -399,6 +400,7 @@ async function gemini(apiKey, userMessage, modelName) {
             answer: data.candidates[0].content.parts[0].text,
           });
           historyList();
+          checkIcon.style.display = "block";
           setTimeout(() => {
             answer.scrollIntoView({ behavior: "smooth" });
           }, 100);

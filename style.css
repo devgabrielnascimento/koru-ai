@@ -676,6 +676,16 @@ span {
   opacity: 0.8;
 }
 
+#check-icon {
+  display: none;
+  position: absolute;
+  top: 100px;
+  left: 0px;
+  width: 24px;
+  height: 24px;
+  fill: var(--text-color);
+}
+
 .loading {
   display: none;
   justify-content: center;
@@ -795,6 +805,11 @@ span {
   .answer {
     width: 100%;
   }
+
+  #check-icon {
+    left: 20px;
+    top: 100px
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -851,5 +866,11 @@ span {
   }
   .container-history {
     width: 100%;
+  }
+  #check-icon {
+    width: 14px;
+    height: 14px;
+    left: -2px;
+    top: 100px;
   }
 }
