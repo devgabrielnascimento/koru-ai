@@ -18,7 +18,7 @@ const closeButton = document.querySelector("#close-button");
 const historyItems = document.querySelector("#history-items");
 const buttonsArea = document.querySelector(".buttons-textarea");
 const checkIcon = document.querySelector("#check-icon");
-
+const errors = document.querySelector("#errors");
 function closeVerifiedMessage() {
   customAlert.style.display = "none";
   askAnything.style.display = "flex";
@@ -319,6 +319,7 @@ function chooseModel(selectedModel) {
 }
 
 async function gemini(apiKey, userMessage, modelName) {
+  let intervalo;
   if (!apiKey || !apiKey.trim()) {
     answer.textContent = "Chave da API não encontrada. Salve primeiro.";
     return;
@@ -388,12 +389,12 @@ async function gemini(apiKey, userMessage, modelName) {
       answer.style.whiteSpace = "pre-line";
       let i = 0;
 
-      const intervalo = setInterval(() => {
+      intervalo = setInterval(() => {
         answer.innerHTML += letras[i];
         i++;
         answer.scrollTop = answer.scrollHeight;
         if (i < letras.length) {
-          disableMessage();
+        
         }
         if (i >= letras.length) {
           clearInterval(intervalo);
@@ -415,12 +416,26 @@ async function gemini(apiKey, userMessage, modelName) {
       console.warn("Resposta com formato inesperado:", data);
       answer.textContent = "Resposta inválida do servidor.";
     }
+    
   } catch (err) {
     console.error(err);
-    answer.textContent = "Erro ao consultar a API: " + (err.message || err);
+    clearInterval(intervalo);
+    errors.style.color = "red";
+    errors.textContent =
+      "Erro ao consultar a API: " + err.message.match(/HTTP error! status: (\d+)/)[1] 
+      if(err.message.match(/HTTP error! status: (\d+)/)[1] === "429") {
+        errors.style.color = "orange";
+        errors.textContent =
+          "Limite de chamadas atingido. Tente novamente mais tarde.";
+      } else { 
+        errors.style.color = "red"; 
+        errors.textContent =
+          "Erro ao consultar a API: " +
+          err.message.match(/HTTP error! status: (\d+)/)[1]; 
+      };
     enableMessage();
   } finally {
-    
+    ;
   }
 }
 document.addEventListener("keydown", function (event) {
