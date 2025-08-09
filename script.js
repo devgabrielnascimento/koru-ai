@@ -1,7 +1,7 @@
 const btnPaste = document.querySelector(".paste-icon");
 const geminiButton = document.querySelector("#gemini-button");
 const submitButton = document.querySelector("#submit-key");
-const form = document.querySelector("#openai-form");
+const form = document.querySelector("#gemini-form");
 const formKey = document.querySelector("#key-form");
 const keyError = document.querySelector("#key-error");
 const answer = document.querySelector(".answer");
@@ -16,6 +16,7 @@ const customAlert = document.querySelector("#custom-alert");
 const askAnything = document.querySelector(".askAnything");
 const closeButton = document.querySelector("#close-button");
 const historyItems = document.querySelector("#history-items");
+const buttonsArea = document.querySelector(".buttons-textarea");
 
 function closeVerifiedMessage() {
   customAlert.style.display = "none";
@@ -199,7 +200,8 @@ function disableMessage() {
   message.value = "";
   message.disabled = true;
   message.classList.remove("hover-enabled");
-  geminiButton.classList.remove("hover-enabled-btn");
+  buttonsArea.classList.remove("hover-enabled-btn");
+  form.classList.remove("hover-enabled-form");
   loadingIcon.style.display = "flex";
   geminiButton.disabled = true;
   geminiButton.setAttribute("aria-disabled", "true");

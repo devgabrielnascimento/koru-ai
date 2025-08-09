@@ -297,22 +297,33 @@ form:focus-within input .paste-icon {
   transition: all 0.8s ease-in-out;
 }
 
-form:hover textarea,
-form:hover .buttons-textarea {
+#gemini-form:hover.hover-enabled-form ,
+#gemini-form:hover .buttons-textarea,
+#message.hover-enabled:hover {
   opacity: 1;
   transition: all 0.8s ease-in-out;
 }
-
-#message.hover-enabled:hover {
+#submit-key {
+  cursor: pointer;
+}
+/* #message.hover-enabled:hover {
   opacity: 1;
   transition: all 0.8s ease-in-out;
   outline: none;
   border: none;
-}
+} */
 
-#gemini-button.hover-enabled-btn:hover {
+/* .buttons-textarea button.hover-enabled-btn:hover {
   opacity: 1;
   transition: all 0.8s ease-in-out;
+  cursor: pointer;
+} */
+
+#clear-button {
+  cursor: pointer;
+}
+#clear-button svg:hover {
+  opacity: 0.8;
 }
 
 form:focus textarea {
@@ -387,6 +398,7 @@ svg path ~ input:focus {
   width: 24px;
   height: 24px;
   opacity: 0.1;
+  cursor: pointer;
 }
 
 .container-dropdown {
@@ -620,10 +632,7 @@ span {
   fill: transparent;
 }
 
-.buttons-textarea button:hover {
-  opacity: 1;
-  transition: all 0.2s ease-in-out;
-}
+
 
 .send-icon {
   fill: white;
