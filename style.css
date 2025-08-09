@@ -308,7 +308,6 @@ form:focus-within input .paste-icon {
 }
 
 .buttons-textarea {
-
   outline: none;
   border: none;
 }
@@ -626,6 +625,10 @@ span {
   fill: transparent;
 }
 
+.caracteres {
+  margin-top: 10px;
+}
+
 .send-icon {
   fill: white;
   pointer-events: none;
@@ -659,14 +662,11 @@ span {
   overflow: hidden scroll;
 }
 
-.answer::-webkit-scrollbar {
-  display: none;
-}
 
 #copy-icon {
   display: none;
   position: absolute;
-  right: 40px;
+  right: 20px;
   top: 40px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -781,6 +781,23 @@ span {
   justify-content: center;
   align-items: center;
 }
+
+::-webkit-scrollbar {
+  width: 6px; 
+  height: 12px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-color);
+  border-radius: 6px;
+}
+
+
+/* Fundo da barra (track) */
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
 @media screen and (max-width: 768px) {
   .welcome-text {
     gap: 12px;
@@ -858,7 +875,8 @@ span {
     padding: 14px;
   }
   #copy-icon {
-    right: -3px;
+    top: 0px;
+    right: 5px;
   }
 
   .history {

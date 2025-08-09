@@ -127,6 +127,7 @@ function cleanAnswer() {
   loadingIcon.style.display = "none";
   question.style.display = "flex";
   copyIcon.style.display = "none";
+  checkIcon.style.display = "none";
 }
 
 clearIcon.addEventListener("click", cleanAnswer);
