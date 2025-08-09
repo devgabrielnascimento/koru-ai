@@ -81,6 +81,24 @@ body {
   padding: 50px;
 }
 
+.container-history {
+  display: flex;
+  justify-content: center;
+
+  width: 500px;
+  padding: 20px;
+  max-height: 300px;
+  -ms-overflow-style: none;
+  overflow-y: auto;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style-type: none;
+}
+
 .showMenu {
   transform: translateX(0);
 }
@@ -92,7 +110,8 @@ body {
 .history:hover {
   opacity: 0.8;
 }
-.theme-display-moon:hover , .theme-display-sun:hover{
+.theme-display-moon:hover,
+.theme-display-sun:hover {
   opacity: 0.8;
 }
 
@@ -817,11 +836,18 @@ span {
     font-size: 18px;
   }
   .answer {
-    width: 300px;
+    width: 100%;
+    padding: 14px;
+  }
+  #copy-icon {
+    right: -3px;
   }
 
   .history {
     position: static;
+  }
+  .container-history {
+    width: 100%;
   }
 }
 /* CSS para o botão "Copiar Resposta" */

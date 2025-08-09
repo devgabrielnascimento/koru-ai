@@ -15,6 +15,7 @@ const historyIcon = document.querySelector("#history-icon");
 const customAlert = document.querySelector("#custom-alert");
 const askAnything = document.querySelector(".askAnything");
 const closeButton = document.querySelector("#close-button");
+const historyItems = document.querySelector("#history-items");
 
 function closeVerifiedMessage() {
   customAlert.style.display = "none";
@@ -223,8 +224,8 @@ function historyList() {
     const li2 = document.createElement("li");
     li.textContent = `Sua pergunta: ${item.userMessage}`;
     li2.textContent = `Sua resposta: ${item.answer}`;
-    menu.appendChild(li);
-    menu.appendChild(li2);
+    historyItems.appendChild(li);
+    historyItems.appendChild(li2);
   });
 }
 
