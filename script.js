@@ -200,8 +200,11 @@ function disableMessage() {
   message.value = "";
   message.disabled = true;
   message.classList.remove("hover-enabled");
-  buttonsArea.classList.remove("hover-enabled-btn");
+  buttonsArea.style.pointerEvents = "none";
   form.classList.remove("hover-enabled-form");
+  form.classList.remove("hover-enabled");
+  buttonsArea.classList.remove("hover-enabled-textarea");
+  geminiButton.classList.remove("hover-enabled-btn");
   loadingIcon.style.display = "flex";
   geminiButton.disabled = true;
   geminiButton.setAttribute("aria-disabled", "true");
@@ -217,6 +220,10 @@ function enableMessage() {
   message.disabled = false;
   message.classList.add("hover-enabled");
   geminiButton.classList.add("hover-enabled-btn");
+  buttonsArea.style.pointerEvents = "auto";
+  form.classList.add("hover-enabled-form");
+  form.classList.add("hover-enabled");
+  buttonsArea.classList.add("hover-enabled-textarea");
   loadingIcon.style.display = "none";
   geminiButton.disabled = false;
   geminiButton.removeAttribute("aria-disabled");
@@ -320,14 +327,7 @@ async function gemini(apiKey, userMessage, modelName) {
   const sendIcon = document.querySelector(".send-icon");
   sendIcon.classList.remove("hover-enabled-icon");
 
-  const message = document.getElementById("message");
-  message.value = "";
-  message.disabled = true;
-  message.classList.remove("hover-enabled");
-  geminiButton.classList.remove("hover-enabled-btn");
-  loadingIcon.style.display = "flex";
-  geminiButton.disabled = true;
-  geminiButton.setAttribute("aria-disabled", "true");
+ disableMessage();
 
   try {
     const resp = await fetch(
@@ -411,13 +411,7 @@ async function gemini(apiKey, userMessage, modelName) {
     console.error(err);
     answer.textContent = "Erro ao consultar a API: " + (err.message || err);
   } finally {
-    message.classList.add("hover-enabled");
-    geminiButton.classList.add("hover-enabled-btn");
-    sendIcon.classList.add("hover-enabled-icon");
-    loadingIcon.style.display = "none";
-    message.disabled = false;
-    geminiButton.disabled = false;
-    geminiButton.setAttribute("aria-disabled", "false");
+   enableMessage();
   }
 }
 document.addEventListener("keydown", function (event) {

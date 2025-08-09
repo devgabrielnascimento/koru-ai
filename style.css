@@ -297,27 +297,21 @@ form:focus-within input .paste-icon {
   transition: all 0.8s ease-in-out;
 }
 
-#gemini-form:hover.hover-enabled-form ,
-#gemini-form:hover .buttons-textarea,
-#message.hover-enabled:hover {
+#gemini-form:hover.hover-enabled-form,
+#gemini-form:hover .hover-enabled,
+#gemini-form:hover .hover-enabled-textarea {
   opacity: 1;
   transition: all 0.8s ease-in-out;
 }
 #submit-key {
   cursor: pointer;
 }
-/* #message.hover-enabled:hover {
-  opacity: 1;
-  transition: all 0.8s ease-in-out;
+
+.buttons-textarea {
+
   outline: none;
   border: none;
-} */
-
-/* .buttons-textarea button.hover-enabled-btn:hover {
-  opacity: 1;
-  transition: all 0.8s ease-in-out;
-  cursor: pointer;
-} */
+}
 
 #clear-button {
   cursor: pointer;
@@ -631,8 +625,6 @@ span {
 .buttons-textarea button:nth-of-type(1) svg circle {
   fill: transparent;
 }
-
-
 
 .send-icon {
   fill: white;
