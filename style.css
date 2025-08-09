@@ -319,6 +319,11 @@ form:focus-within input .paste-icon {
   opacity: 0.8;
 }
 
+
+#gemini-button svg:hover {
+  opacity: 0.8;
+}
+
 form:focus textarea {
   opacity: 1;
   transition: all 0.8s ease-in-out;
@@ -519,6 +524,24 @@ div#modelDropdown {
   transition: all 0.2s ease-in-out;
 }
 
+#gemini-button:hover {
+  cursor: pointer;
+}
+
+#gemini-button:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+#clear-button:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+
+
 span {
   font-family: var(--poppins-font);
   font-weight: var(--poppins-semibold);
@@ -664,16 +687,19 @@ span {
 
 
 #copy-icon {
-  display: none;
   position: absolute;
   right: 20px;
   top: 40px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  opacity: 0;
+  pointer-events: none; /* impede interação quando invisível */
+  transition: opacity 0.2s ease-in-out;
 }
 
+.answer:hover + #copy-icon,
 #copy-icon:hover {
-  opacity: 0.8;
+  opacity: 1;
+  pointer-events: auto; /* ativa interação quando visível */
 }
 
 #check-icon {

@@ -209,6 +209,8 @@ function disableMessage() {
   geminiButton.classList.remove("hover-enabled-btn");
   loadingIcon.style.display = "flex";
   geminiButton.disabled = true;
+  clearIcon.disabled = true;
+  clearIcon.setAttribute("aria-disabled", "true");
   geminiButton.setAttribute("aria-disabled", "true");
 }
 
@@ -227,6 +229,8 @@ function enableMessage() {
   form.classList.add("hover-enabled");
   buttonsArea.classList.add("hover-enabled-textarea");
   loadingIcon.style.display = "none";
+  clearIcon.disabled = false;
+  clearIcon.removeAttribute("aria-disabled");
   geminiButton.disabled = false;
   geminiButton.removeAttribute("aria-disabled");
 }
@@ -400,10 +404,11 @@ async function gemini(apiKey, userMessage, modelName) {
             answer: data.candidates[0].content.parts[0].text,
           });
           historyList();
-          checkIcon.style.display = "block";
+          
           setTimeout(() => {
             answer.scrollIntoView({ behavior: "smooth" });
-          }, 100);
+            checkIcon.style.display = "block";
+          }, 200);
         }
       }, 30);
     } else {
@@ -413,8 +418,9 @@ async function gemini(apiKey, userMessage, modelName) {
   } catch (err) {
     console.error(err);
     answer.textContent = "Erro ao consultar a API: " + (err.message || err);
-  } finally {
     enableMessage();
+  } finally {
+    
   }
 }
 document.addEventListener("keydown", function (event) {

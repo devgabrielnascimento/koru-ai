@@ -149,10 +149,6 @@
               role="img"
               aria-labelledby="title-desc"
             >
-              <title id="title">Check animado</title>
-              <desc id="desc">
-                Marca de verificação desenhada com animação de traço
-              </desc>
               <circle
                 cx="60"
                 cy="60"
@@ -174,7 +170,7 @@
                 #mark {
                   stroke-dasharray: 200;
                   stroke-dashoffset: 200;
-                  animation: draw 0.8s ease-out 0.2s forwards;
+                  animation: draw 0.8s ease-out 0.5s forwards;
                 }
                 @keyframes draw {
                   to {
@@ -426,7 +422,7 @@
             ></textarea>
 
             <div class="buttons-textarea hover-enabled-textarea">
-              <button id="clear-button">
+              <button id="clear-button" class="disabled-btn hover-enabled-btn"> 
                 <svg
                   width="40"
                   height="40"
