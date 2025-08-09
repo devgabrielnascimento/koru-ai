@@ -720,6 +720,7 @@ word-break: break-all;
 
 
 #copy-icon {
+  display: none;
   position: absolute;
   right: 20px;
   top: 40px;
