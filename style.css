@@ -85,7 +85,7 @@ body {
 .container-history {
   display: flex;
   justify-content: center;
-
+word-break: break-all;
   width: 500px;
   padding: 20px;
   max-height: 300px;
@@ -455,6 +455,8 @@ div#modelDropdown {
 .dropdown {
   display: none;
   position: relative;
+  justify-content: center;
+  align-items: center;
   width: 280px;
 }
 
@@ -473,6 +475,8 @@ div#modelDropdown {
 
 .dropdown-btn::after {
   content: "▼";
+  
+  align-items: center;
   font-size: 12px;
   margin-left: 10px;
 }
@@ -480,6 +484,9 @@ div#modelDropdown {
 /* lista de opções */
 .dropdown-list {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  
   top: 110%;
   left: 0;
   right: 0;
@@ -493,9 +500,19 @@ div#modelDropdown {
 }
 
 .dropdown-list div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px 14px;
+  font-size: 12px;
   cursor: pointer;
   transition: background 0.2s;
+}
+
+
+.dropdown-list > div::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 10px;
 }
 
 .dropdown-list div:hover {
@@ -681,7 +698,7 @@ span {
   font-size: 16px;
   color: var(--text-color);
   animation: fadeIn 3s ease-in-out;
-
+word-break: break-all;
   width: 675px;
   padding: 30px 61px;
   height: 100%;
