@@ -85,12 +85,6 @@ window.addEventListener("DOMContentLoaded", () => {
   applyTheme();
 });
 
-
-
-window.addEventListener("DOMContentLoaded", () => {
-  const changeTheme = localStorage.setItem();
-});
-
 copyIcon.addEventListener("click", copy);
 
 document.addEventListener("input", function (event) {
