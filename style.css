@@ -51,6 +51,7 @@ body {
 
 .history {
   position: fixed;
+  display: none;
   z-index: 100;
   top: 60px;
   left: 10px;
@@ -438,6 +439,7 @@ div#modelDropdown {
 }
 
 .dropdown {
+  display: none;
   position: relative;
   width: 280px;
 }

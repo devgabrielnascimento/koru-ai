@@ -170,6 +170,8 @@ async function submitKey() {
 
       sectionText.style.display = "none";
       customAlert.style.display = "flex";
+      dropdown.style.display = "flex";
+      history.style.display = "flex";
     } else {
       keyError.style.color = "red";
       keyError.textContent = `Chave inválida ou erro na API: status ${resp.status}`;
