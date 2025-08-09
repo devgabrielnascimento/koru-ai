@@ -386,6 +386,7 @@ async function gemini(apiKey, userMessage, modelName) {
       const intervalo = setInterval(() => {
         answer.innerHTML += letras[i];
         i++;
+        answer.scrollTop = answer.scrollHeight;
         if (i < letras.length) {
           disableMessage();
         }
