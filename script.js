@@ -328,7 +328,7 @@ async function gemini(apiKey, userMessage, modelName) {
   const sendIcon = document.querySelector(".send-icon");
   sendIcon.classList.remove("hover-enabled-icon");
 
- disableMessage();
+  disableMessage();
 
   try {
     const resp = await fetch(
@@ -367,7 +367,6 @@ async function gemini(apiKey, userMessage, modelName) {
         "\n\n" +
         data.contents[0].parts[0].text;
     } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      loadingIcon.style.display = "none";
       text =
         "Sua pergunta: " +
         userMessage +
@@ -414,7 +413,7 @@ async function gemini(apiKey, userMessage, modelName) {
     console.error(err);
     answer.textContent = "Erro ao consultar a API: " + (err.message || err);
   } finally {
-   enableMessage();
+    enableMessage();
   }
 }
 document.addEventListener("keydown", function (event) {
