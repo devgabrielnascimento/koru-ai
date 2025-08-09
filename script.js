@@ -418,7 +418,7 @@ async function gemini(apiKey, userMessage, modelName) {
   } catch (err) {
     console.error(err);
     answer.textContent = "Erro ao consultar a API: " + (err.message || err);
-    enableMessage
+    enableMessage();
   } finally {
     
   }
