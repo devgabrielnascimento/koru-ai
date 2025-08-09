@@ -45,29 +45,51 @@ function copy() {
       console.error("Erro ao copiar o texto:", err);
     });
 }
-const sun = document.querySelector(".theme-display-sun");
-const moon = document.querySelector(".theme-display-moon");
-const body = document.querySelector("body");
-function themeChanger() {
-  if (sun.style.display === "flex") {
-    sun.style.display = "none";
-    moon.style.display = "flex";
-    body.style.background = "#222222";
-  } else {
-    sun.style.display = "flex";
-    moon.style.display = "none";
-    body.style.background = `linear-gradient(
-    to bottom,
-    #b621ff 0%,
-    #8a21c1 8%,
-    #5d1189 50%,
-    #222222 93%
-  )`;
-  }
-}
+window.addEventListener("DOMContentLoaded", () => {
+  const sun = document.querySelector(".theme-display-sun");
+  const moon = document.querySelector(".theme-display-moon");
+  const body = document.querySelector("body");
+  let theme = localStorage.getItem("theme");
 
-sun.addEventListener("click", themeChanger);
-moon.addEventListener("click", themeChanger);
+  function applyTheme() {
+    if (theme === "dark") {
+      sun.style.display = "none";
+      moon.style.display = "flex";
+      body.style.background = "#222222";
+    } else {
+      sun.style.display = "flex";
+      moon.style.display = "none";
+      body.style.background = `linear-gradient(
+        to bottom,
+        #b621ff 0%,
+        #8a21c1 8%,
+        #5d1189 50%,
+        #222222 93%
+      )`;
+    }
+  }
+
+  function saveTheme() {
+    localStorage.setItem("theme", theme);
+  }
+
+  function themeChanger() {
+    theme = theme === "light" ? "dark" : "light";
+    applyTheme();
+    saveTheme();
+  }
+
+  sun.addEventListener("click", themeChanger);
+  moon.addEventListener("click", themeChanger);
+
+  applyTheme();
+});
+
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  const changeTheme = localStorage.setItem();
+});
 
 copyIcon.addEventListener("click", copy);
 
@@ -128,6 +150,11 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+
+
+
+
+
 btnPaste.addEventListener("click", paste);
 
 document
@@ -156,10 +183,6 @@ async function submitKey() {
       keyError.style.color = "orange";
       keyError.textContent =
         "Limite de chamadas atingido. Tente novamente mais tarde.";
-      // } else if (resp.status === 200) {
-      //   localStorage.removeItem("gemini-key", apiKey);
-      //   throw new Error(`Chave inválida ou erro na API: status ${resp.status}`);
-      // }
     } else if (resp.status === 403) {
       keyError.style.color = "white";
       keyError.textContent = "Campo obrigatório: Chave da Gemini";
