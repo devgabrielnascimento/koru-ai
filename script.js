@@ -102,8 +102,13 @@ document.addEventListener("input", function (event) {
     if (span) {
       span.textContent = caracteresRestantes + "/" + limite;
     }
-
-    if (limite - caracteresDigitados < 25 && limite - caracteresDigitados > 0) {
+    if (caracteresDigitados === 0) {
+      span.style.color = "white";
+      geminiButton.classList.remove("hover-enabled-btn");
+      geminiButton.disabled = true;
+      geminiButton.setAttribute("aria-disabled", "true");
+    }
+    else if (limite - caracteresDigitados < 25 && limite - caracteresDigitados > 0) {
       span.style.color = "orange";
       geminiButton.classList.add("hover-enabled-btn");
       geminiButton.disabled = false;
