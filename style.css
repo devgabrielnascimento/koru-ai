@@ -78,7 +78,7 @@ body {
   background: var(--primary-color);
   color: white;
   list-style: none;
-  padding-top: 4rem;
+  padding: 50px;
 }
 
 .showMenu {
