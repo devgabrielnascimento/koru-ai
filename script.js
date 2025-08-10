@@ -261,18 +261,15 @@ function toggleMenu() {
 history.addEventListener("click", toggleMenu);
 
 function historyList() {
-  let indice = 1;
   historyItems.textContent = "";
-  historyArray.forEach((item) => {
+  historyArray.forEach((item, i) => {
     const questionAnswerDiv = document.createElement("div");
     const userQuestion = document.createElement("p");
     const geminiAnswer = document.createElement("p");
-    userQuestion.textContent = `Sua pergunta ${indice}: ${item.userMessage}`;
-    geminiAnswer.textContent = `Sua resposta ${indice}: ${item.answer}`;
+    userQuestion.textContent = `Sua pergunta ${i + 1}: ${item.userMessage}`;
+    geminiAnswer.textContent = `Sua resposta ${i + 1}: ${item.answer}`;
     questionAnswerDiv.append(userQuestion, geminiAnswer);
     historyItems.appendChild(questionAnswerDiv);
-
-    indice++;
   });
 }
 
