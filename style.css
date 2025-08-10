@@ -249,7 +249,7 @@ h2 {
     var(--secondary-color) 59%,
     var(--tertiary-color) 100%
   );
-  -webkit-background-clip: text; /* necessário para Chrome/Safari */
+  -webkit-background-clip: text; 
   background-clip: text;
   color: transparent;
 }
@@ -407,7 +407,7 @@ svg path ~ input:focus {
   justify-content: center;
 }
 .model-dropdown {
-  appearance: none; /* remove estilo padrão */
+  appearance: none; 
   -webkit-appearance: none;
   -moz-appearance: none;
   stroke: none;
@@ -420,7 +420,6 @@ svg path ~ input:focus {
   font-size: 14px;
   cursor: pointer;
 
-  /* espaço para a setinha customizada */
   padding-right: 40px;
   background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 13 24" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
   background-repeat: no-repeat;
@@ -491,7 +490,7 @@ div#modelDropdown {
   background: var(--secondary-color);
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  max-height: 200px; /* <<< altura máxima da lista */
+  max-height: 200px; 
   overflow-y: auto;
   display: none;
   z-index: 10;
