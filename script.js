@@ -58,10 +58,18 @@ window.addEventListener("DOMContentLoaded", () => {
       sun.style.display = "none";
       moon.style.display = "flex";
       body.style.background = "#222222";
+      menu.style.background = "#222222";
     } else {
       sun.style.display = "flex";
       moon.style.display = "none";
       body.style.background = `linear-gradient(
+        to bottom,
+        #b621ff 0%,
+        #8a21c1 8%,
+        #5d1189 50%,
+        #222222 93%
+      )`;
+      menu.style.background = `linear-gradient(
         to bottom,
         #b621ff 0%,
         #8a21c1 8%,
@@ -250,16 +258,31 @@ function toggleMenu() {
 
 history.addEventListener("click", toggleMenu);
 
+
 function historyList() {
+  
+  let indice = 1;
+  historyItems.innerHTML = "";  
   historyArray.forEach((item) => {
-    const li = document.createElement("li");
-    const li2 = document.createElement("li");
-    li.textContent = `Sua pergunta: ${item.userMessage}`;
-    li2.textContent = `Sua resposta: ${item.answer}`;
-    historyItems.appendChild(li);
-    historyItems.appendChild(li2);
+    const questionAnswerDiv = document.createElement("div");
+    const userQuestion = document.createElement("p");
+    const geminiAnswer = document.createElement("p");
+    userQuestion.textContent = `Sua pergunta ${indice}: ${item.userMessage}`;
+    geminiAnswer.textContent = `Sua resposta ${indice}: ${item.answer}`;
+    questionAnswerDiv.append(userQuestion, geminiAnswer);
+    historyItems.appendChild(questionAnswerDiv);
+   
+    indice++;
   });
 }
+
+// questionAnswerDiv.addEventListener("mouseover", () => {
+//  questionAnswerDiv.style.cursor = "pointer";
+//  questionAnswerDiv.style.background = "#333";
+// });
+
+
+
 
 const dropdown = document.getElementById("modelDropdown");
 const btn = dropdown.querySelector(".dropdown-btn");

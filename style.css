@@ -62,6 +62,55 @@ body {
   cursor: pointer;
 }
 
+.container-history > p:nth-child(1) {
+  font-family: var(--poppins-font);
+  font-weight: var(--poppins-semibold);
+  font-size: 18px;
+  color: white;
+  text-align: center;
+}
+
+#history-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  word-break: break-all;
+ 
+  padding: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#history-items p {
+  cursor: pointer;
+}
+
+#history-items p:nth-of-type(1) {
+  font-family: var(--poppins-font);
+  font-size: 12px;
+  color: white;
+  text-align: center;
+}
+
+#history-items p:nth-of-type(2) {
+  font-family: var(--poppins-font);
+
+  font-size: 12px;
+  color: white;
+  text-align: center;
+}
+
+#history-items div {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  border-radius: 10px;
+}
+#history-items div:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -79,18 +128,18 @@ body {
   background: var(--primary-color);
   color: white;
   list-style: none;
-  padding: 50px;
 }
 
 .container-history {
   display: flex;
   justify-content: center;
-word-break: break-all;
+  flex-direction: column;
+  word-break: break-all;
   width: 500px;
   padding: 20px;
   max-height: 300px;
-  -ms-overflow-style: none;
-  overflow-y: auto;
+  /* -ms-overflow-style: none;
+  overflow-y: auto; */
 }
 
 ul {
@@ -184,7 +233,7 @@ nav > div > svg {
 .theme-display-sun {
   display: flex;
   cursor: pointer;
-   width: 28px;
+  width: 28px;
   height: 28px;
 }
 
@@ -249,7 +298,7 @@ h2 {
     var(--secondary-color) 59%,
     var(--tertiary-color) 100%
   );
-  -webkit-background-clip: text; 
+  -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
@@ -322,7 +371,6 @@ form:focus-within input .paste-icon {
 #clear-button svg:hover {
   opacity: 0.8;
 }
-
 
 #gemini-button svg:hover {
   opacity: 0.8;
@@ -407,7 +455,7 @@ svg path ~ input:focus {
   justify-content: center;
 }
 .model-dropdown {
-  appearance: none; 
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   stroke: none;
@@ -455,8 +503,6 @@ div#modelDropdown {
   width: 280px;
 }
 
-
-
 .dropdown-btn {
   background: linear-gradient(to right, #b635ff, #8b2cff);
   color: white;
@@ -472,25 +518,24 @@ div#modelDropdown {
 
 .dropdown-btn::after {
   content: "▼";
-  
+
   align-items: center;
   font-size: 12px;
   margin-left: 10px;
 }
 
-
 .dropdown-list {
   position: absolute;
   display: flex;
   flex-direction: column;
-  
+
   top: 110%;
   left: 0;
   right: 0;
   background: var(--secondary-color);
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  max-height: 200px; 
+  max-height: 200px;
   overflow-y: auto;
   display: none;
   z-index: 10;
@@ -506,7 +551,6 @@ div#modelDropdown {
   transition: background 0.2s;
 }
 
-
 .dropdown-list > div::-webkit-scrollbar-thumb {
   background-color: white;
   border-radius: 10px;
@@ -515,7 +559,6 @@ div#modelDropdown {
 .dropdown-list div:hover {
   background: var(--quaternary-color);
 }
-
 
 .dropdown.open .dropdown-list {
   display: block;
@@ -557,8 +600,6 @@ div#modelDropdown {
   pointer-events: none;
   cursor: not-allowed;
 }
-
-
 
 span {
   font-family: var(--poppins-font);
@@ -695,7 +736,7 @@ span {
   font-size: 16px;
   color: var(--text-color);
   animation: fadeIn 3s ease-in-out;
-word-break: break-all;
+  word-break: break-all;
   width: 675px;
   padding: 30px 61px;
   height: 100%;
@@ -710,9 +751,7 @@ word-break: break-all;
   text-align: left;
   color: var(--text-color);
   animation: fadeIn 3s ease-in-out;
-  
 }
-
 
 #copy-icon {
   display: none;
@@ -728,7 +767,7 @@ word-break: break-all;
 .answer:hover + #copy-icon,
 #copy-icon:hover {
   opacity: 1;
-  pointer-events: auto; 
+  pointer-events: auto;
 }
 
 #check-icon {
@@ -838,16 +877,14 @@ word-break: break-all;
 }
 
 ::-webkit-scrollbar {
-  width: 6px; 
-  height: 12px; 
+  width: 6px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--secondary-color);
   border-radius: 6px;
 }
-
-
 
 ::-webkit-scrollbar-track {
   background-color: transparent;
@@ -877,9 +914,9 @@ word-break: break-all;
   .answer {
     width: 100%;
   }
-#copy-icon {
-  opacity: 1;
-}
+  #copy-icon {
+    opacity: 1;
+  }
   #check-icon {
     left: 20px;
     top: 25%;
@@ -919,7 +956,17 @@ word-break: break-all;
   }
 
   h2 {
-    font-size: 30px;
+    font-size: 26px;
+  }
+
+  .section-text p:nth-child(3) {
+    font-size: 14px;
+  }
+  .section-text p:nth-child(4) {
+    font-size: 12px;
+  }
+  #key {
+    font-size: 12px;
   }
   #key-error {
     font-size: 10px;
