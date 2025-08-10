@@ -115,8 +115,10 @@ document.addEventListener("input", function (event) {
       geminiButton.classList.remove("hover-enabled-btn");
       geminiButton.disabled = true;
       geminiButton.setAttribute("aria-disabled", "true");
-    }
-    else if (limite - caracteresDigitados < 25 && limite - caracteresDigitados > 0) {
+    } else if (
+      limite - caracteresDigitados < 25 &&
+      limite - caracteresDigitados > 0
+    ) {
       span.style.color = "orange";
       geminiButton.classList.add("hover-enabled-btn");
       geminiButton.disabled = false;
@@ -228,8 +230,8 @@ function disableMessage() {
 const textarea = document.querySelector("textarea");
 
 textarea.addEventListener("input", () => {
-  textarea.style.height = "auto"; 
-  textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px"; 
+  textarea.style.height = "auto";
+  textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px";
 });
 function enableMessage() {
   message.disabled = false;
@@ -258,11 +260,9 @@ function toggleMenu() {
 
 history.addEventListener("click", toggleMenu);
 
-
 function historyList() {
-  
   let indice = 1;
-  historyItems.innerHTML = "";  
+  historyItems.textContent = "";
   historyArray.forEach((item) => {
     const questionAnswerDiv = document.createElement("div");
     const userQuestion = document.createElement("p");
@@ -271,18 +271,10 @@ function historyList() {
     geminiAnswer.textContent = `Sua resposta ${indice}: ${item.answer}`;
     questionAnswerDiv.append(userQuestion, geminiAnswer);
     historyItems.appendChild(questionAnswerDiv);
-   
+
     indice++;
   });
 }
-
-// questionAnswerDiv.addEventListener("mouseover", () => {
-//  questionAnswerDiv.style.cursor = "pointer";
-//  questionAnswerDiv.style.background = "#333";
-// });
-
-
-
 
 const dropdown = document.getElementById("modelDropdown");
 const btn = dropdown.querySelector(".dropdown-btn");
@@ -409,20 +401,16 @@ async function gemini(apiKey, userMessage, modelName) {
     }
 
     if (text) {
-      const letras = text.split("");
-
       document.querySelector(".answer").textContent = "";
       answer.style.whiteSpace = "pre-line";
       let i = 0;
 
       intervalo = setInterval(() => {
-        answer.innerHTML += letras[i];
+        answer.textContent += text[i];
         i++;
         answer.scrollTop = answer.scrollHeight;
-        if (i < letras.length) {
-        
-        }
-        if (i >= letras.length) {
+
+        if (i >= text.length) {
           clearInterval(intervalo);
           enableMessage();
           loadingIcon.style.display = "none";
@@ -431,7 +419,7 @@ async function gemini(apiKey, userMessage, modelName) {
             answer: data.candidates[0].content.parts[0].text,
           });
           historyList();
-          
+
           setTimeout(() => {
             answer.scrollIntoView({ behavior: "smooth" });
             checkIcon.style.display = "block";
@@ -442,26 +430,25 @@ async function gemini(apiKey, userMessage, modelName) {
       console.warn("Resposta com formato inesperado:", data);
       answer.textContent = "Resposta inválida do servidor.";
     }
-    
   } catch (err) {
     console.error(err);
     clearInterval(intervalo);
     errors.style.color = "red";
     errors.textContent =
-      "Erro ao consultar a API: " + err.message.match(/HTTP error! status: (\d+)/)[1] 
-      if(err.message.match(/HTTP error! status: (\d+)/)[1] === "429") {
-        errors.style.color = "orange";
-        errors.textContent =
-          "Limite de chamadas atingido. Tente novamente mais tarde.";
-      } else { 
-        errors.style.color = "red"; 
-        errors.textContent =
-          "Erro ao consultar a API: " +
-          err.message.match(/HTTP error! status: (\d+)/)[1]; 
-      };
+      "Erro ao consultar a API: " +
+      err.message.match(/HTTP error! status: (\d+)/)[1];
+    if (err.message.match(/HTTP error! status: (\d+)/)[1] === "429") {
+      errors.style.color = "orange";
+      errors.textContent =
+        "Limite de chamadas atingido. Tente novamente mais tarde.";
+    } else {
+      errors.style.color = "red";
+      errors.textContent =
+        "Erro ao consultar a API: " +
+        err.message.match(/HTTP error! status: (\d+)/)[1];
+    }
     enableMessage();
   } finally {
-    ;
   }
 }
 document.addEventListener("keydown", function (event) {

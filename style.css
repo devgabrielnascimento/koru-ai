@@ -74,7 +74,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  word-break: break-all;
+  word-break: break-word;
  
   padding: 20px;
   max-height: 300px;
@@ -736,7 +736,7 @@ span {
   font-size: 16px;
   color: var(--text-color);
   animation: fadeIn 3s ease-in-out;
-  word-break: break-all;
+  word-break: break-word;
   width: 675px;
   padding: 30px 61px;
   height: 100%;
