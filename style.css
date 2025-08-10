@@ -75,7 +75,7 @@ body {
   flex-direction: column;
   gap: 10px;
   word-break: break-word;
- 
+
   padding: 20px;
   max-height: 300px;
   overflow-y: auto;
@@ -87,15 +87,14 @@ body {
 
 #history-items p:nth-of-type(1) {
   font-family: var(--poppins-font);
-  font-size: 12px;
+  font-size: 14px;
   color: white;
   text-align: center;
 }
 
 #history-items p:nth-of-type(2) {
   font-family: var(--poppins-font);
-
-  font-size: 12px;
+  font-size: 14px;
   color: white;
   text-align: center;
 }
