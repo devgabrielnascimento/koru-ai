@@ -136,9 +136,9 @@ document.addEventListener("input", function (event) {
       limite - caracteresDigitados > 0
     ) {
       span.style.color = "orange";
-      updateButtonState(false);
+    
     } else if (limite === caracteresDigitados) {
-      updateButtonState(false);
+
       span.style.color = "red";
     } else if(message.value.trim() === "") {
       span.style.color = "white";
