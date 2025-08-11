@@ -142,7 +142,7 @@ document.addEventListener("input", function (event) {
       span.style.color = "red";
     } else if(message.value.trim() === "") {
       span.style.color = "white";
-      event.target.value = event.target.value.slice(0,150);
+      event.target.value = event.target.value.slice(0,140);
       updateButtonState(true);
 
     }else {
