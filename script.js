@@ -462,15 +462,18 @@ async function gemini(apiKey, userMessage, modelName) {
   }
 }
 document.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    answer.style.display = "flex";
-    loadingIcon.style.display = "flex";
-    question.style.display = "none";
-    copyIcon.style.display = "flex";
+  if (event.key === "Enter" && message.value.trim() === "") {
+    updateButtonState(true);
+  } else if (event.key === "Enter" && message.value.trim() !== "") {
     // if (!lastSelectedModel) {
     //   alert("Escolha um modelo primeiro");
     //   return;
     // }
+
+    answer.style.display = "flex";
+    loadingIcon.style.display = "flex";
+    question.style.display = "none";
+    copyIcon.style.display = "flex";
     const apiKey = (localStorage.getItem("gemini-key") || "").trim();
     const userMessage = document.getElementById("message").value.trim();
     gemini(apiKey, userMessage);
