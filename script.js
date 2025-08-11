@@ -96,6 +96,24 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 copyIcon.addEventListener("click", copy);
+function updateButtonState(isEmpty) {
+  if (isEmpty === true) {
+    geminiButton.disabled = true;
+    geminiButton.setAttribute("aria-disabled", "true");
+    geminiButton.classList.remove("hover-enabled-btn");
+  } else if (isEmpty === false) {
+    geminiButton.disabled = false;
+    geminiButton.removeAttribute("aria-disabled");
+    geminiButton.classList.add("hover-enabled-btn");
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  updateButtonState(true);
+  message.addEventListener("input", () => {
+    updateButtonState(message.value.trim() === "");
+  });
+});
 
 document.addEventListener("input", function (event) {
   if (event.target.classList.contains("TxtObservations")) {
@@ -112,25 +130,19 @@ document.addEventListener("input", function (event) {
     }
     if (caracteresDigitados === 0) {
       span.style.color = "white";
-      geminiButton.classList.remove("hover-enabled-btn");
-      geminiButton.disabled = true;
-      geminiButton.setAttribute("aria-disabled", "true");
+      updateButtonState(true);
     } else if (
       limite - caracteresDigitados < 25 &&
       limite - caracteresDigitados > 0
     ) {
       span.style.color = "orange";
-      geminiButton.classList.add("hover-enabled-btn");
-      geminiButton.disabled = false;
-      geminiButton.removeAttribute("aria-disabled");
+      updateButtonState(false);
     } else if (limite === caracteresDigitados) {
-      geminiButton.setAttribute("aria-disabled", "true");
+      updateButtonState(false);
       span.style.color = "red";
     } else {
       span.style.color = "white";
-      geminiButton.classList.add("hover-enabled-btn");
-      geminiButton.disabled = false;
-      geminiButton.removeAttribute("aria-disabled");
+      updateButtonState(false);
     }
   }
 });
@@ -236,7 +248,6 @@ textarea.addEventListener("input", () => {
 function enableMessage() {
   message.disabled = false;
   message.classList.add("hover-enabled");
-  geminiButton.classList.add("hover-enabled-btn");
   buttonsArea.style.pointerEvents = "auto";
   form.classList.add("hover-enabled-form");
   form.classList.add("hover-enabled");
@@ -244,8 +255,7 @@ function enableMessage() {
   loadingIcon.style.display = "none";
   clearIcon.disabled = false;
   clearIcon.removeAttribute("aria-disabled");
-  geminiButton.disabled = false;
-  geminiButton.removeAttribute("aria-disabled");
+  updateButtonState(message.value.trim() === "");
 }
 
 const history = document.querySelector(".history");
