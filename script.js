@@ -260,17 +260,15 @@ function toggleMenu() {
 
 history.addEventListener("click", toggleMenu);
 
-function historyList() {
-  historyItems.textContent = "";
-  historyArray.forEach((item, i) => {
-    const questionAnswerDiv = document.createElement("div");
-    const userQuestion = document.createElement("p");
-    const geminiAnswer = document.createElement("p");
-    userQuestion.textContent = `Sua pergunta ${i + 1}: ${item.userMessage}`;
-    geminiAnswer.textContent = `Sua resposta ${i + 1}: ${item.answer}`;
-    questionAnswerDiv.append(userQuestion, geminiAnswer);
-    historyItems.appendChild(questionAnswerDiv);
-  });
+function historyList(userMessage, answer) {
+  let i = historyArray.length;
+  const questionAnswerDiv = document.createElement("div");
+  const userQuestion = document.createElement("p");
+  const geminiAnswer = document.createElement("p");
+  userQuestion.textContent = `Sua pergunta ${i}: ${userMessage}`;
+  geminiAnswer.textContent = `Sua resposta ${i}: ${answer}`;
+  questionAnswerDiv.append(userQuestion, geminiAnswer);
+  historyItems.appendChild(questionAnswerDiv);
 }
 
 const dropdown = document.getElementById("modelDropdown");
@@ -415,7 +413,7 @@ async function gemini(apiKey, userMessage, modelName) {
             userMessage: userMessage,
             answer: data.candidates[0].content.parts[0].text,
           });
-          historyList();
+          historyList(userMessage, data.candidates[0].content.parts[0].text);
 
           setTimeout(() => {
             answer.scrollIntoView({ behavior: "smooth" });
