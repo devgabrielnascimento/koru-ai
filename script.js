@@ -140,7 +140,11 @@ document.addEventListener("input", function (event) {
     } else if (limite === caracteresDigitados) {
       updateButtonState(false);
       span.style.color = "red";
-    } else {
+    } else if(message.value.trim() === "") {
+      span.style.color = "white";
+      updateButtonState(true);
+
+    }else {
       span.style.color = "white";
       updateButtonState(false);
     }
