@@ -136,16 +136,13 @@ document.addEventListener("input", function (event) {
       limite - caracteresDigitados > 0
     ) {
       span.style.color = "orange";
-    
     } else if (limite === caracteresDigitados) {
-
       span.style.color = "red";
-    } else if(message.value.trim() === "") {
+    } else if (message.value.trim() === "") {
       span.style.color = "white";
-      event.target.value = event.target.value.slice(0,140);
+      event.target.value = event.target.value.slice(0, 140);
       updateButtonState(true);
-
-    }else {
+    } else {
       span.style.color = "white";
       updateButtonState(false);
     }
@@ -347,7 +344,7 @@ function chooseModel(selectedModel) {
 }
 
 async function gemini(apiKey, userMessage, modelName) {
-  let intervalo;
+  let interval;
   if (!apiKey || !apiKey.trim()) {
     answer.textContent = "Chave da API não encontrada. Salve primeiro.";
     return;
@@ -415,13 +412,13 @@ async function gemini(apiKey, userMessage, modelName) {
       answer.style.whiteSpace = "pre-line";
       let i = 0;
 
-      intervalo = setInterval(() => {
+      interval = setInterval(() => {
         answer.textContent += text[i];
         i++;
         answer.scrollTop = answer.scrollHeight;
 
         if (i >= text.length) {
-          clearInterval(intervalo);
+          clearInterval(interval);
           enableMessage();
           loadingIcon.style.display = "none";
           historyArray.push({
@@ -442,7 +439,7 @@ async function gemini(apiKey, userMessage, modelName) {
     }
   } catch (err) {
     console.error(err);
-    clearInterval(intervalo);
+    clearInterval(interval);
     errors.style.color = "red";
     errors.textContent =
       "Erro ao consultar a API: " +
