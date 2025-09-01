@@ -17,6 +17,9 @@
   --poppins-light: 300;
   --poppins-extralight: 200;
   --poppins-font-style-italic: italic;
+  --menu-collapsed-width: 60px;
+  --menu-expanded-width: 250px;
+  --menu-transition-duration: 0.3s;
 }
 
 html,
@@ -40,17 +43,35 @@ body {
 
 #mnuopcoes {
   display: flex;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
   flex-direction: column;
   align-items: center;
   gap: 80px;
+  width: var(--menu-collapsed-width);
   background-color: rgba(255, 255, 255, 0.01);
   height: 100%;
   padding: 10px;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
+  transition: width var(--menu-transition-duration) ease,
+    box-shadow var(--menu-transition-duration) ease;
+}
+
+#mnuopcoes.active {
+  width: var(--menu-expanded-width);
+}
+
+#mnuopcoes:not(.active) .nav-text {
+  display: none;
+}
+
+#menuopcoes2.shifted {
+  margin-left: var(--menu-expanded-width);
 }
 
 .history {
-  position: fixed;
   display: none;
   z-index: 100;
   top: 60px;
@@ -60,6 +81,11 @@ body {
   padding: 4px;
 
   cursor: pointer;
+}
+
+#history-header {
+  display: flex;
+  align-items: center;
 }
 
 .container-history > p:nth-child(1) {
@@ -77,7 +103,7 @@ body {
   word-break: break-word;
 
   padding: 20px;
-  max-height: 300px;
+  max-height: 580px;
   overflow-y: auto;
 }
 
@@ -116,16 +142,9 @@ body {
   gap: 10px;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  transform: translatex(-100%);
-  transition: transform 0.2s;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99;
   background: var(--primary-color);
   color: white;
+  height: auto;
   list-style: none;
 }
 
@@ -134,9 +153,10 @@ body {
   justify-content: center;
   flex-direction: column;
   word-break: break-all;
-  width: 500px;
-  padding: 20px;
-  max-height: 300px;
+  width: 230px;
+  /* padding: 20px; */
+  height: 100%;
+  max-height: 600px;
   /* -ms-overflow-style: none;
   overflow-y: auto; */
 }
@@ -148,9 +168,6 @@ ul {
   list-style-type: none;
 }
 
-.showMenu {
-  transform: translateX(0);
-}
 .menu li:nth-child(1) {
   font-size: 20px;
   font-weight: var(--poppins-semibold);
@@ -167,11 +184,14 @@ ul {
 #menuopcoes2 {
   display: flex;
   /* background-color: green; */
-  height: 100%;
+
   width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-left: var(--menu-collapsed-width);
+  transition: margin-left var(--menu-transition-duration) ease;
+  height: 100dvh;
 }
 header {
   position: sticky;
@@ -247,7 +267,7 @@ nav > div > svg {
 
 section {
   width: 100%;
-  height: fit-content;
+
   max-width: 1600px;
   padding: var(--padding-size);
   display: flex;
@@ -256,6 +276,7 @@ section {
   justify-content: center;
   text-align: center;
   /* background: blue; */
+  gap: 20px;
   flex: 1;
   text-align: right;
 }
@@ -290,7 +311,7 @@ p:nth-child(1) {
 h2 {
   font-family: var(--poppins-font);
   font-weight: var(--poppins-semibold);
-  font-size: 64px;
+  font-size: 40px;
   background: linear-gradient(
     to right,
     var(--primary-color) 15%,
@@ -347,6 +368,12 @@ form:hover input,
 form:focus-within input .paste-icon {
   opacity: 1;
   transition: all 0.8s ease-in-out;
+}
+
+#gemini-form {
+  display: flex;
+  position: sticky;
+  bottom: 0;
 }
 
 #gemini-form:hover.hover-enabled-form,
@@ -619,13 +646,14 @@ span {
 
 .askAnything {
   position: relative;
-  max-width: 650px;
+  /* max-width: 650px; */
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   line-height: 1;
   width: 100%;
+  height: 100%;
 
   gap: 20px;
   animation: fadeIn 3s ease-in-out;
@@ -636,7 +664,7 @@ span {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .askAnything p {
@@ -728,7 +756,7 @@ span {
   display: none;
   position: relative;
   flex-direction: column;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   text-align: left;
   font-family: var(--poppins-font);
   font-weight: var(--poppins-light);
@@ -736,11 +764,14 @@ span {
   color: var(--text-color);
   animation: fadeIn 3s ease-in-out;
   word-break: break-word;
-  width: 675px;
-  padding: 30px 61px;
+  max-width: 675px;
+  width: 100%;
+  padding: 0px 10px;
   height: 100%;
-  max-height: 300px;
+  gap: 20px;
+  max-height: 659px;
   overflow: hidden scroll;
+  overflow-y: auto;
 }
 
 #errors {
@@ -890,6 +921,33 @@ span {
 }
 
 @media screen and (max-width: 768px) {
+  #mnuopcoes {
+    border: none;
+    background: none;
+  }
+  #mnuopcoes.active {
+    background: var(--secondary-color);
+    width: 90%;
+  }
+
+  #mnuopcoes:not(.active) .theme-display-sun {
+    display: none;
+  }
+
+  #mnuopcoes:not(.active) .theme-display-sun {
+    display: none;
+  }
+  #mnuopcoes:not(.active) .history {
+    display: none;
+  }
+
+  #menuopcoes2 {
+    margin-left: 0;
+  }
+
+  #menuopcoes2.shifted {
+    margin-left: 0;
+  }
   .welcome-text {
     gap: 12px;
   }
@@ -912,6 +970,7 @@ span {
   }
   .answer {
     width: 100%;
+    max-height: 320px;
   }
   #copy-icon {
     opacity: 1;
@@ -923,29 +982,39 @@ span {
 }
 
 @media screen and (max-width: 550px) {
-  body {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+  #mnuopcoes {
+    border: none;
+    background: none;
+  }
+  #mnuopcoes.active {
+    background: var(--secondary-color);
+    width: 90%;
   }
 
-  #mnuopcoes {
-    display: flex;
-    justify-content: space-between;
-    padding: 22px;
-    align-items: center;
-    flex-direction: row;
-    width: 100%;
-    height: 10%;
+  #mnuopcoes:not(.active) .theme-display-sun {
+    display: none;
   }
-  header {
-    padding: 14px;
+
+  #mnuopcoes:not(.active) #history {
+    display: none;
   }
-  section {
-    padding: 8px;
-    justify-content: flex-start;
-    margin-top: 80px;
+
+  #mnuopcoes:not(.active) .theme-display-sun {
+    display: none;
   }
+
+  #menuopcoes2 {
+    margin-left: 0;
+  }
+
+  #menuopcoes2.shifted {
+    margin-left: 0;
+  }
+
+  .container-history {
+    max-height: 300px;
+  }
+
   .welcome-text {
     gap: 8px;
   }
@@ -974,8 +1043,7 @@ span {
     font-size: 18px;
   }
   .answer {
-    width: 100%;
-    padding: 14px;
+    max-height: 320px;
   }
   #copy-icon {
     top: 0px;
@@ -983,9 +1051,9 @@ span {
     opacity: 1;
   }
 
-  .history {
+  /* .history {
     position: static;
-  }
+  } */
   .container-history {
     width: 100%;
   }
@@ -994,5 +1062,8 @@ span {
     height: 14px;
     left: -2px;
     top: 25%;
+  }
+  .showMenu {
+    transform: translateX(0);
   }
 }

@@ -2,10 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Koru AI</title>
     <link rel="shortcut icon" href="favicon-ko-ai.svg" type="image/x-icon" />
@@ -20,6 +17,7 @@
   <body>
     <div id="mnuopcoes">
       <svg
+        id="logo-menu"
         width="42"
         height="42"
         viewBox="0 0 42 42"
@@ -58,26 +56,28 @@
         </defs>
       </svg>
       <div class="menu">
-        <div class="container-history">
-          <p>Histórico</p>
-          <div id="history-items">
-          </div>
+        <div id="history-header">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            class="history"
+            id="history"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 28C12.9333 28 10.2613 26.9836 7.984 24.9507C5.70667 22.9178 4.40089 20.3787 4.06667 17.3333H6.8C7.11111 19.6444 8.13911 21.5556 9.884 23.0667C11.6289 24.5778 13.6676 25.3333 16 25.3333C18.6 25.3333 20.8058 24.428 22.6173 22.6173C24.4289 20.8067 25.3342 18.6009 25.3333 16C25.3324 13.3991 24.4271 11.1938 22.6173 9.384C20.8076 7.57422 18.6018 6.66844 16 6.66667C14.4667 6.66667 13.0333 7.02222 11.7 7.73333C10.3667 8.44444 9.24444 9.42222 8.33333 10.6667H12V13.3333H4V5.33333H6.66667V8.46667C7.8 7.04444 9.18356 5.94444 10.8173 5.16667C12.4511 4.38889 14.1787 4 16 4C17.6667 4 19.228 4.31689 20.684 4.95067C22.14 5.58444 23.4067 6.43956 24.484 7.516C25.5613 8.59244 26.4169 9.85911 27.0507 11.316C27.6844 12.7729 28.0009 14.3342 28 16C27.9991 17.6658 27.6827 19.2271 27.0507 20.684C26.4187 22.1409 25.5631 23.4076 24.484 24.484C23.4049 25.5604 22.1382 26.416 20.684 27.0507C19.2298 27.6853 17.6684 28.0018 16 28ZM19.7333 21.6L14.6667 16.5333V9.33333H17.3333V15.4667L21.6 19.7333L19.7333 21.6Z"
+              fill="white"
+            />
+          </svg>
+          <p class="nav-text">Histórico</p>
+        </div>
+        <div class="container-history nav-text">
+          <div id="history-items"></div>
         </div>
       </div>
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        class="history"
-        id="history"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M16 28C12.9333 28 10.2613 26.9836 7.984 24.9507C5.70667 22.9178 4.40089 20.3787 4.06667 17.3333H6.8C7.11111 19.6444 8.13911 21.5556 9.884 23.0667C11.6289 24.5778 13.6676 25.3333 16 25.3333C18.6 25.3333 20.8058 24.428 22.6173 22.6173C24.4289 20.8067 25.3342 18.6009 25.3333 16C25.3324 13.3991 24.4271 11.1938 22.6173 9.384C20.8076 7.57422 18.6018 6.66844 16 6.66667C14.4667 6.66667 13.0333 7.02222 11.7 7.73333C10.3667 8.44444 9.24444 9.42222 8.33333 10.6667H12V13.3333H4V5.33333H6.66667V8.46667C7.8 7.04444 9.18356 5.94444 10.8173 5.16667C12.4511 4.38889 14.1787 4 16 4C17.6667 4 19.228 4.31689 20.684 4.95067C22.14 5.58444 23.4067 6.43956 24.484 7.516C25.5613 8.59244 26.4169 9.85911 27.0507 11.316C27.6844 12.7729 28.0009 14.3342 28 16C27.9991 17.6658 27.6827 19.2271 27.0507 20.684C26.4187 22.1409 25.5631 23.4076 24.484 24.484C23.4049 25.5604 22.1382 26.416 20.684 27.0507C19.2298 27.6853 17.6684 28.0018 16 28ZM19.7333 21.6L14.6667 16.5333V9.33333H17.3333V15.4667L21.6 19.7333L19.7333 21.6Z"
-          fill="white"
-        />
-      </svg>
+
       <svg
         id="theme-icon"
         class="theme-display-moon"
@@ -297,43 +297,9 @@
         <div class="askAnything">
           <div class="answer">
             <div class="loading">
-              <p><span>koru.ai</span> está carregando sua resposta</p>
+              <!-- <p><span>koru.ai</span> está carregando sua resposta</p> -->
+               
             </div>
-            <svg
-              width="80"
-              height="24"
-              viewBox="0 0 80 24"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#ffffff"
-            >
-              <circle cx="10" cy="12" r="4">
-                <animate
-                  attributeName="cy"
-                  values="12;6;12"
-                  dur="0.6s"
-                  repeatCount="indefinite"
-                  begin="0s"
-                />
-              </circle>
-              <circle cx="40" cy="12" r="4">
-                <animate
-                  attributeName="cy"
-                  values="12;6;12"
-                  dur="0.6s"
-                  repeatCount="indefinite"
-                  begin="0.2s"
-                />
-              </circle>
-              <circle cx="70" cy="12" r="4">
-                <animate
-                  attributeName="cy"
-                  values="12;6;12"
-                  dur="0.6s"
-                  repeatCount="indefinite"
-                  begin="0.4s"
-                />
-              </circle>
-            </svg>
           </div>
           <svg
             id="copy-icon"
@@ -373,56 +339,62 @@
               </clipPath>
             </defs>
           </svg>
-          <svg id="check-icon"
-  width="28"
-  height="28"
-  viewBox="0 0 28 28"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path
-    d="M6 14L12 20L22 8"
-    stroke="#4CAF50"
-    stroke-width="3"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    fill="none"
-    stroke-dasharray="30"
-    stroke-dashoffset="30"
-  >
-    <animate
-      attributeName="stroke-dashoffset"
-      from="30"
-      to="0"
-      dur="0.4s"
-      fill="freeze"
-      begin="0s"
-    />
-  </path>
-  <animateTransform
-    attributeName="transform"
-    attributeType="XML"
-    type="scale"
-    values="1;1.15;1"
-    keyTimes="0;0.5;1"
-    dur="0.3s"
-    begin="0.4s"
-    fill="freeze"
-    additive="sum"
-  />
-</svg>
+          <svg
+            id="check-icon"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 14L12 20L22 8"
+              stroke="#4CAF50"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+              stroke-dasharray="30"
+              stroke-dashoffset="30"
+            >
+              <animate
+                attributeName="stroke-dashoffset"
+                from="30"
+                to="0"
+                dur="0.4s"
+                fill="freeze"
+                begin="0s"
+              />
+            </path>
+            <animateTransform
+              attributeName="transform"
+              attributeType="XML"
+              type="scale"
+              values="1;1.15;1"
+              keyTimes="0;0.5;1"
+              dur="0.3s"
+              begin="0.4s"
+              fill="freeze"
+              additive="sum"
+            />
+          </svg>
 
           <p id="question">O que você gostaria de perguntar?</p>
-          <form action="#" id="gemini-form" name="gemini-form" class="hover-enabled-form">
+          <form
+            action="#"
+            id="gemini-form"
+            name="gemini-form"
+            class="hover-enabled-form"
+          >
             <textarea
-              class="hover-enabled TxtObservations "
+              class="hover-enabled TxtObservations"
               name="message"
               id="message"
               placeholder="Digite sua pergunta aqui"
             ></textarea>
 
             <div class="buttons-textarea hover-enabled-textarea">
-              <button id="clear-button" class="disabled-btn hover-enabled-btn"> 
+              <button id="clear-button" class="disabled-btn hover-enabled-btn">
                 <svg
                   width="40"
                   height="40"

@@ -1,0 +1,9 @@
+<svg width="22" height="22" viewBox="0 -8 30 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Elipse verde -->
+  <ellipse cx="12" cy="12" rx="12" ry="12" fill="#00C853"/>
+  
+  <!-- Check animado branco centralizado -->
+  <path d="M7 12L11 16L17 8" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="24" stroke-dashoffset="24">
+    <animate attributeName="stroke-dashoffset" from="24" to="0" dur="0.5s" repeatCount="indefinite"/>
+  </path>
+</svg>

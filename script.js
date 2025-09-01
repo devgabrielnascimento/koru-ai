@@ -1,3 +1,4 @@
+const menuBtn = document.querySelector("#logo-menu");
 const btnPaste = document.querySelector(".paste-icon");
 const geminiButton = document.querySelector("#gemini-button");
 const submitButton = document.querySelector("#submit-key");
@@ -19,6 +20,9 @@ const historyItems = document.querySelector("#history-items");
 const buttonsArea = document.querySelector(".buttons-textarea");
 const checkIcon = document.querySelector("#check-icon");
 const errors = document.querySelector("#errors");
+const themeDisplaySun = document.querySelector(".theme-display-sun");
+const themeDisplayMoon = document.querySelector(".theme-display-moon");
+const mnuOPS = document.querySelector("#mnuopcoes");
 function closeVerifiedMessage() {
   customAlert.style.display = "none";
   askAnything.style.display = "flex";
@@ -26,6 +30,30 @@ function closeVerifiedMessage() {
 
 closeButton.addEventListener("click", closeVerifiedMessage);
 
+// Cria a media query
+const mediaQuery = window.matchMedia("(max-width: 550px)");
+
+// Função que trata a mudança
+// function handleMediaQuery(e) {
+//   if (e.matches) {
+//     // Se entrou na media query (até 550px)
+//     mnuOPS.classList.remove("active");
+
+//   } else {
+//     // Se saiu da media query
+//     mnuOPS.classList.add("active");
+//     mnuOPS.style.width = "250px";
+
+//   }
+// }
+
+// // Executa uma vez ao carregar
+// handleMediaQuery(mediaQuery);
+
+// // Escuta mudanças na media query
+// mediaQuery.addEventListener("change", handleMediaQuery);
+// JavaScript Integrado
+document.addEventListener("DOMContentLoaded", () => {});
 function paste() {
   navigator.clipboard
     .readText()
@@ -54,31 +82,33 @@ window.addEventListener("DOMContentLoaded", () => {
   let theme = localStorage.getItem("theme");
 
   function applyTheme() {
+    const menuVisible = mnuOPS.classList.contains("active");
+
     if (theme === "dark") {
+      moon.style.display = menuVisible ? "flex" : "none";
       sun.style.display = "none";
-      moon.style.display = "flex";
       body.style.background = "#222222";
-      menu.style.background = "#222222";
+      // menu.style.background = "#222222";
     } else {
-      sun.style.display = "flex";
+      sun.style.display = menuVisible ? "flex" : "none";
       moon.style.display = "none";
       body.style.background = `linear-gradient(
-        to bottom,
-        #b621ff 0%,
-        #8a21c1 8%,
-        #5d1189 50%,
-        #222222 93%
-      )`;
-      menu.style.background = `linear-gradient(
-        to bottom,
-        #b621ff 0%,
-        #8a21c1 8%,
-        #5d1189 50%,
-        #222222 93%
-      )`;
+      to bottom,
+      #b621ff 0%,
+      #8a21c1 8%,
+      #5d1189 50%,
+      #222222 93%
+    )`;
     }
   }
+  const sidebar = document.querySelector("#mnuopcoes");
+  const content = document.querySelector("#menuopcoes2");
 
+  menuBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+    content.classList.toggle("shifted");
+    applyTheme();
+  });
   function saveTheme() {
     localStorage.setItem("theme", theme);
   }
@@ -151,7 +181,7 @@ document.addEventListener("input", function (event) {
 
 function cleanAnswer() {
   answer.style.display = "none";
-  loadingIcon.style.display = "none";
+  hideLoading();
   question.style.display = "flex";
   copyIcon.style.display = "none";
   checkIcon.style.display = "none";
@@ -213,7 +243,8 @@ async function submitKey() {
       sectionText.style.display = "none";
       customAlert.style.display = "flex";
       dropdown.style.display = "flex";
-      history.style.display = "flex";
+      const menuVisible = mnuOPS.classList.contains("active");
+      history.style.display = menuVisible ? "flex" : "none";
     } else {
       keyError.style.color = "red";
       keyError.textContent = `Chave inválida ou erro na API: status ${resp.status}`;
@@ -235,6 +266,10 @@ function disableMessage() {
   buttonsArea.classList.remove("hover-enabled-textarea");
   geminiButton.classList.remove("hover-enabled-btn");
   loadingIcon.style.display = "flex";
+  loadingIcon.style.visibility = "visible";
+  errors.textContent = "";
+  checkIcon.style.display = "none";
+  copyIcon.style.display = "none";
   geminiButton.disabled = true;
   clearIcon.disabled = true;
   clearIcon.setAttribute("aria-disabled", "true");
@@ -247,14 +282,19 @@ textarea.addEventListener("input", () => {
   textarea.style.height = "auto";
   textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px";
 });
+
+function hideLoading() {
+  loadingIcon.style.display = "none";
+  loadingIcon.style.visibility = "hidden";
+}
 function enableMessage() {
+  hideLoading();
   message.disabled = false;
   message.classList.add("hover-enabled");
   buttonsArea.style.pointerEvents = "auto";
   form.classList.add("hover-enabled-form");
   form.classList.add("hover-enabled");
   buttonsArea.classList.add("hover-enabled-textarea");
-  loadingIcon.style.display = "none";
   clearIcon.disabled = false;
   clearIcon.removeAttribute("aria-disabled");
   updateButtonState(message.value.trim() === "");
@@ -263,10 +303,11 @@ function enableMessage() {
 const history = document.querySelector(".history");
 
 function toggleMenu() {
-  if (menu.classList.contains("showMenu")) {
-    menu.classList.remove("showMenu");
+  const menuBtn = document.querySelector("#logo-menu");
+  if (menuBtn.classList.contains("showMenu")) {
+    menuBtn.classList.remove("showMenu");
   } else {
-    menu.classList.add("showMenu");
+    menuBtn.classList.add("showMenu");
   }
 }
 
@@ -343,6 +384,47 @@ function chooseModel(selectedModel) {
   gemini(apiKey, userMessage, selectedModel);
 }
 
+function showLoading() {}
+
+function addChatBlock(userMessage, botMessage) {
+  const chatBlock = document.createElement("div");
+  chatBlock.classList.add("chat-block");
+  chatBlock.style.display = "flex";
+  chatBlock.style.flexDirection = "column";
+  chatBlock.style.gap = "20px";
+
+  // Pergunta do usuário
+  const userBubble = document.createElement("div");
+  userBubble.classList.add("chat-bubble", "user");
+  userBubble.textContent = userMessage;
+  userBubble.style.textAlign = "right";
+  userBubble.style.backgroundColor = "#924cd5";
+  userBubble.style.color = "white";
+  userBubble.style.borderRadius = "10px";
+  userBubble.style.alignSelf = "flex-end";
+  userBubble.style.padding = "20px";
+  userBubble.style.borderBottomLeftRadius = "0";
+
+  // Resposta do bot
+  const botBubble = document.createElement("div");
+  botBubble.classList.add("chat-bubble", "bot");
+  botBubble.style.textAlign = "left";
+  botBubble.style.backgroundColor = "#a934e7";
+  botBubble.style.color = "white";
+  botBubble.style.borderRadius = "10px";
+  botBubble.style.alignSelf = "flex-start";
+  botBubble.style.padding = "20px";
+  botBubble.style.borderBottomLeftRadius = "0";
+
+  if (botMessage) botBubble.innerHTML = botMessage;
+
+  chatBlock.appendChild(userBubble);
+  chatBlock.appendChild(botBubble);
+  answer.appendChild(chatBlock);
+
+  return botBubble;
+}
+
 async function gemini(apiKey, userMessage, modelName) {
   let interval;
   if (!apiKey || !apiKey.trim()) {
@@ -361,6 +443,44 @@ async function gemini(apiKey, userMessage, modelName) {
 
   disableMessage();
 
+  const botBubble = addChatBlock(
+    userMessage,
+    ` <svg
+              width="80"
+              height="24"
+              viewBox="0 0 80 24"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="#ffffff"
+            >
+              <circle cx="10" cy="12" r="4">
+                <animate
+                  attributeName="cy"
+                  values="12;6;12"
+                  dur="0.6s"
+                  repeatCount="indefinite"
+                  begin="0s"
+                />
+              </circle>
+              <circle cx="40" cy="12" r="4">
+                <animate
+                  attributeName="cy"
+                  values="12;6;12"
+                  dur="0.6s"
+                  repeatCount="indefinite"
+                  begin="0.2s"
+                />
+              </circle>
+              <circle cx="70" cy="12" r="4">
+                <animate
+                  attributeName="cy"
+                  values="12;6;12"
+                  dur="0.6s"
+                  repeatCount="indefinite"
+                  begin="0.4s"
+                />
+              </circle>
+            </svg> Carregando...`
+  );
   try {
     const resp = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(
@@ -375,7 +495,7 @@ async function gemini(apiKey, userMessage, modelName) {
           contents: [
             {
               role: "user",
-              parts: [{ text: userMessage }],
+              parts: [{ text: `Responda em português: ${userMessage}` }],
             },
           ],
         }),
@@ -388,47 +508,28 @@ async function gemini(apiKey, userMessage, modelName) {
     }
 
     const data = await resp.json();
-    let text = null;
     if (data?.contents?.[0]?.parts?.[0]?.text) {
-      text =
-        "Sua pergunta: " +
-        userMessage +
-        "\n\n" +
-        "Resposta" +
-        "\n\n" +
-        data.contents[0].parts[0].text;
+      botAnswer = data.contents[0].parts[0].text;
     } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      text =
-        "Sua pergunta: " +
-        userMessage +
-        "\n\n" +
-        "Resposta: " +
-        "\n\n" +
-        data.candidates[0].content.parts[0].text;
+      botAnswer = data.candidates[0].content.parts[0].text;
     }
 
-    if (text) {
-      document.querySelector(".answer").textContent = "";
-      answer.style.whiteSpace = "pre-line";
+    if (botAnswer) {
       let i = 0;
+      botBubble.textContent = "";
 
       interval = setInterval(() => {
-        answer.textContent += text[i];
+        botBubble.textContent += botAnswer[i];
         i++;
-        answer.scrollTop = answer.scrollHeight;
 
-        if (i >= text.length) {
+        if (i >= botAnswer.length) {
           clearInterval(interval);
           enableMessage();
-          loadingIcon.style.display = "none";
-          historyArray.push({
-            userMessage: userMessage,
-            answer: data.candidates[0].content.parts[0].text,
-          });
-          historyList(userMessage, data.candidates[0].content.parts[0].text);
-
+          historyArray.push({ userMessage, answer: botAnswer });
+          historyList(userMessage, botAnswer);
+          botBubble.scrollTop = botBubble.scrollHeight;
           setTimeout(() => {
-            answer.scrollIntoView({ behavior: "smooth" });
+            botBubble.scrollIntoView({ behavior: "smooth" });
             checkIcon.style.display = "block";
           }, 200);
         }
@@ -456,6 +557,7 @@ async function gemini(apiKey, userMessage, modelName) {
     }
     enableMessage();
   } finally {
+    hideLoading();
   }
 }
 document.addEventListener("keydown", function (event) {
@@ -468,9 +570,7 @@ document.addEventListener("keydown", function (event) {
     // }
 
     answer.style.display = "flex";
-    loadingIcon.style.display = "flex";
     question.style.display = "none";
-    copyIcon.style.display = "flex";
     const apiKey = (localStorage.getItem("gemini-key") || "").trim();
     const userMessage = document.getElementById("message").value.trim();
     gemini(apiKey, userMessage);
@@ -480,7 +580,6 @@ document.addEventListener("keydown", function (event) {
 
 geminiButton.addEventListener("click", () => {
   answer.style.display = "flex";
-  loadingIcon.style.display = "flex";
   question.style.display = "none";
   copyIcon.style.display = "flex";
   // if (!lastSelectedModel) {
